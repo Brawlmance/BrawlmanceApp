@@ -28,14 +28,6 @@ app.use((req, res, next) => {
   next()
 })
 
-// Allow /api leading path
-app.use(function(req, res, next) {
-  const removeOnRoutes = /^\/api/
-  req.originalUrl = req.originalUrl.replace(removeOnRoutes, '')
-  req.path = req.path.replace(removeOnRoutes, '')
-  next()
-})
-
 // Our routes
 setupRoutes(app)
 

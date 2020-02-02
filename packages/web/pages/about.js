@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import api from '../lib/api'
 
 About.propTypes = {
   randomFact: PropTypes.string.isRequired,
@@ -28,8 +29,7 @@ export default function About({ randomFact }) {
 }
 
 About.getInitialProps = async function(ctx) {
-  const res = await fetch(`http://localhost:4401/v1/random_fact?patch=${ctx.query.patch}&tier=${ctx.query.tier}`)
-  const data = await res.json()
+  const data = await api.get(`/v1/random_fact?patch=${ctx.query.patch}&tier=${ctx.query.tier}`)
 
   return {
     randomFact: data.result || '',

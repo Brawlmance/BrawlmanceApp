@@ -9,6 +9,8 @@ import App from 'next/app'
 import PropTypes from 'prop-types'
 import setupGoogleAnalytics from '../lib/google_analytics'
 import usePatchAndTier, { changePatch, changeTier } from '../components/usePatchAndTier'
+import api from '../lib/api'
+
 setupGoogleAnalytics()
 
 MyApp.propTypes = {
@@ -50,9 +52,7 @@ export default function MyApp({ Component, pageProps, headerData }) {
 MyApp.getInitialProps = async ctx => {
   const appProps = await App.getInitialProps(ctx)
 
-  const headerData = await fetch(`http://localhost:4401/v1/patches?tier=${ctx.router.query.tier}`).then(res =>
-    res.json()
-  )
+  const headerData = await api.get(`/v1/patches?tier=${ctx.router.query.tier}`)
 
   return { ...appProps, headerData }
 }
