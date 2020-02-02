@@ -28,6 +28,14 @@ app.use((req, res, next) => {
   next()
 })
 
+// Allow /api path
+app.use(function(req, res, next) {
+  if (req.url.slice(0, 4) === '/api') {
+    req.url = req.url.slice(4, -1)
+  }
+  next()
+})
+
 // Our routes
 setupRoutes(app)
 
