@@ -1,0 +1,13 @@
+{
+    "eslint.workingDirectories": [
+      "./packages/api", "./packages/web"
+    ],
+    "files.watcherExclude": {
+        "**/node_modules/*/**": true
+    },
+    "svelte.plugin.typescript.enable": false,
+    "eslint.validate": [
+        "javascript",
+        "svelte"
+    ]
+  }

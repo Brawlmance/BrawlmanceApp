@@ -1,0 +1,358 @@
+/*! HTML5 Boilerplate v5.0 | MIT License | http://h5bp.com/ */
+a {
+	color: #D7D000;
+	text-decoration: none;
+}
+a:hover {
+	color: #D7D0A0;
+	text-decoration: none;
+}
+
+::-moz-selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+::selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+body {
+    color: #ccc;
+    font-size: 1em;
+    line-height: 1.4;
+	background: #444349;
+    overflow-y: scroll;
+	font-family: 'Lato', sans-serif;
+	word-break: break-word;
+}
+img.bg {
+	min-height: 100%;
+	min-width: 1024px;
+	width: 100%;
+	height: auto;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1;
+}
+@media screen and (max-width: 1024px) { /* Specific to this particular image */
+  img.bg {
+    left: 50%;
+    margin-left: -512px;   /* 50% */
+  }
+}
+h1 {
+	text-align: center;
+}
+#main {
+    width: 100%;
+    max-width: 1024px;
+    background: rgb(68,67,73);
+    background: rgba(68,67,73,0.6);
+    box-shadow: 0 0 4px #212123;
+    position: absolute;
+    z-index: 3;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+header {
+	width: 100%;
+	background: rgba(0, 0, 0, 0.08);
+	border-bottom: 1px solid black;
+    padding: 7px 0;
+    margin-bottom: 7px;
+    overflow: auto;
+}
+header div {
+	box-sizing: border-box;
+	float: left;
+}
+#menu {
+	font-size: 0.9em;
+}
+#menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+#menu li#brawlmance{
+	font-size: 1.2em;
+    font-weight: bold;
+}
+@media (max-width: 360px) {
+	#menu li#brawlmance {
+		width: 100%;
+		margin: 0.1em 0 0.6em 0;
+	}
+}
+#menu li {
+    display: block;
+    float: left;
+    padding: 0 10px;
+    min-height: 22px;
+}
+#menu li img {
+    height: 28px;
+    width: 28px;
+    margin-top: -8px;
+    margin-right: 3px;
+    position: relative;
+    top: 2px;
+}
+#aggregationstatus {
+    float: right;
+	font-size: 15px;
+	text-align: center;
+}
+@media (max-width: 1023px) {
+	#aggregationstatus {
+		width: 100%;
+		margin-top: 10px;
+	}
+	#menu {
+		width: 100%;
+	}
+}
+
+#aggregationstatus select {
+	color: #333;
+}
+
+#aggregationstatus #n_analyzed {
+    display: inline-block;
+    margin: 0;
+    padding: 0 1em;
+}
+	
+.header_warning {
+    text-align: center;
+    border-bottom: 1px solid black;
+	padding: 2px 0;
+	line-height: 1;
+    font-weight: bold;
+}
+.header_warning p {
+	margin: 0.5em 0;
+}
+
+#content {
+	padding: 0 10px;
+}
+
+
+/* main */
+.tops {
+	text-align: center;
+	margin-bottom: 15px;
+}
+.tops>div {
+	width: 48%;
+	display: inline-block;
+	text-align: center;
+}
+.tops table {
+	width: 95%;
+	font-size: 14px;
+}
+.tops table td {
+	text-align: right;
+	padding: 7px;
+}
+.tops table th {
+    border-bottom: 1px solid #777;
+	padding: 7px;
+}
+.tops table td a {
+    float: left;
+    text-align: center;
+}
+.tops table td.positionnum {
+	text-align: center;
+    border-right: 1px solid #777;
+}
+.tops table td.highest {
+	color: #3bd049;
+    border-right: 1px solid #777;
+}
+.tops table td.lowest {
+	color: #c24444;
+}
+@media (max-width: 820px) {
+	.tops>div {
+		width: 100%;
+	}
+}
+
+.grid {
+	overflow: auto;
+    text-align: center;
+}
+.card {
+	width: 250px;
+	display: inline-block;
+    transition: background-color 0.5s ease;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	text-align: center;
+}
+.card.hash {
+	background: rgba(255, 255, 255, 0.05);
+}
+.card>img {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+}
+.card>p {
+	width: 100%;
+	margin-right: 0.3em;
+}
+.card .orderfactor {
+	cursor: pointer;
+	font-size: 10px;
+    position: relative;
+    top: -2px;
+}
+.card .orderfactor.active {
+	color: #4b805c;
+}
+.card .stats {
+	width: 100%;
+}
+.card .stats>div{
+	width: 20%;
+	display: inline-block;
+}
+.card .stats>div:before {
+	display: inline-block;
+	content: " ";
+	height: 18px;
+	width: 20px;
+    background-repeat: no-repeat;
+    background-position: center left;
+    position: relative;
+    top: 3px;
+}
+.card .strength:before {
+	background-image: url('/img/stats/strength.png');
+}
+.card .dexterity:before {
+	background-image: url('/img/stats/dexterity.png');
+}
+.card .defense:before {
+	background-image: url('/img/stats/defense.png');
+}
+.card .speed:before {
+	background-image: url('/img/stats/speed.png');
+}
+.card .statistical {
+	width: 100%;
+    overflow: auto;
+}
+.card .statistical>div{
+	width: 50%;
+    float: left;
+    min-height: 60px;
+    vertical-align:top;
+}
+.card .statistical p {
+	color: #b7a3da;
+}
+.card p {
+	margin: 2px 0;
+}
+.card .damagedealt, .card .matchtime {
+	font-size: 0.75em;
+}
+
+.streams>div {
+	width: 25%;
+	display:inline-block;
+    text-align: center;
+    padding: 0 2%;
+    box-sizing: border-box;
+}
+@media (max-width: 1023px) {
+	.streams>div {
+		width: 100%;
+		margin-bottom: 10px;
+	}
+}
+.streams>div img {
+	width: 100%;
+}
+.streams>div span.name {
+    display: block;
+    float: left;
+    margin-left: 2px;
+}
+.streams>div span.viewers {
+    display: block;
+    float: right;
+    margin-right: 2px;
+}
+
+/* ranking */
+#ranking {
+	width: 92%;
+	text-align: center;
+	margin: 0 auto;
+    border-collapse: collapse;
+}
+#ranking, #ranking th, #ranking td {
+	padding: 7px;
+}
+#ranking p {
+    margin: 0 0.3em;
+}
+#ranking .wins {
+	color: #3bd049;
+}
+#ranking .losses {
+	color: #c24444;
+}
+#ranking .region {
+	font-size: 0.8em;
+}
+#ranking .lgnd {
+	width: 2em;
+	height: 2em;
+	margin: 0 0.25em;
+	border-radius: 50%;
+}
+#rankingform {
+    text-align: center;
+    margin: 1.5em 0;
+}
+#rankingform select {
+    color: #333;
+    padding: 0.3em 1em;
+    font-size: 1.15em;
+}
+@media screen and (max-width: 767px) {
+	#ranking {
+		width: 100%;
+		font-size: 0.9em;
+	}
+	#ranking, #ranking th, #ranking td {
+		padding: 7px 1px;
+	}
+	#ranking td {
+		min-width: 3em;
+	}
+}
+
+
+
+
+/* footer */
+footer {
+	color: #eee;
+	font-size: 13px;
+	text-align: center;
+	padding-top: 30px;
+	padding-bottom: 5px;
+	width: 80%;
+	margin: 0 auto;
+}

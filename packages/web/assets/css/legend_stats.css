@@ -1,0 +1,49 @@
+.legend-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    word-break: initial;
+}
+.legend-container .legend-column {
+    text-align: center;
+    padding: 10px;
+    flex: 0 1 0;
+}
+.legend-container .legend-avatar {
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+}
+.legend-container .legend-name {
+    text-align: center;
+    margin: 10px 20px;
+    font-size: 1.2em;
+}
+.legend-container .legend-stats-table th {
+    padding: 5px;
+    width: 25%;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+.legend-container .legend-stats-table td {
+    padding: 7px;
+}
+
+.legend-container .legend-stats-table tr.minor {
+    font-size: 0.7em;
+    color: #ccccccdd;
+}
+.legend-container .legend-stats-table tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+.legend-container .legend-stats-table span.change-arrow {
+    font-size: 0.8em;
+    margin-right: 0.2em;
+}
+.legend-container .legend-stats-table span.red {
+    color: #d43e3e;
+}
+.legend-container .legend-stats-table span.green {
+    color: #3f8c3f;
+}

@@ -1,0 +1,91 @@
+#searchForm {
+  text-align: center;
+  margin: 2em 0;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 1em;
+  margin-bottom: 2em;
+}
+
+.profile-header .name {
+  padding-left: 5em;
+  position: relative;
+  margin-right: 2em;
+}
+
+.profile-header .name a {
+  color: inherit;
+}
+
+.profile-header .avatar {
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4em;
+  height: 4em;
+}
+
+.profile-header h1 {
+  font-size: 1.2em;
+  margin: 0;
+}
+
+.profile-header .info {
+  display: inline-block;
+  flex-grow: 1;
+  text-align: center;
+  max-width: 35em;
+}
+
+.profile-header .info .stat {
+  display: inline-block;
+  margin: 0 1em;
+}
+
+.profile-header .info .stat strong {
+  display: block;
+}
+
+.profile-overall-performance .stats {
+  text-align: center;
+}
+
+.profile-overall-performance .stats .stat {
+  display: inline-block;
+  margin: 0 1em;
+}
+
+.profile-overall-performance .stats .stat strong {
+  display: block;
+}
+
+.player-legend {
+  text-align: center;
+  margin: 2em 0;
+}
+
+.player-legend .stat {
+  display: inline-block;
+  margin: 0 1em;
+}
+
+.player-legend .stat strong {
+  display: block;
+}
+
+.player-legend .name {
+  display: inline-block;
+}
+
+.player-legend .name img {
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+}
