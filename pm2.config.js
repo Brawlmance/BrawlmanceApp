@@ -3,7 +3,7 @@ module.exports = {
         {
             name: 'BrawlmanceAPI',
             cwd: './packages/api',
-            script: './packages/api/index.js',
+            script: 'npm run start',
             env: {
                 NODE_ENV: 'production',
             },
@@ -13,7 +13,7 @@ module.exports = {
         {
             name: 'BrawlmanceWeb',
             cwd: './packages/web',
-            script: './packages/web/node_modules/next/dist/bin/next -- start',
+            script: 'npm run start',
             env: {
                 NODE_ENV: 'production',
             },
