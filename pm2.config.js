@@ -13,7 +13,7 @@ module.exports = {
         {
             name: 'BrawlmanceWeb',
             cwd: './packages/web',
-            script: './packages/web/node_modules/next/dist/bin/next-start',
+            script: './packages/web/node_modules/next/dist/bin/next -- start',
             env: {
                 NODE_ENV: 'production',
             },
