@@ -1,0 +1,6 @@
+{
+  "name": "app",
+  "scripts": {
+    "update": "git clean -df && git checkout -- . && git pull && cd packages/app && npm run build && ../.. && pm2 reload BrawlmanceAPI && pm2 reload Brawlmanceweb"
+  }
+}
