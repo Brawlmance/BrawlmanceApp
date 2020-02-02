@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start",
+    "start": "next start --port 4400",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

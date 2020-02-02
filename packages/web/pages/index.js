@@ -1,7 +1,7 @@
-import fetch from 'isomorphic-unfetch'
 import PropTypes from 'prop-types'
 import Legend from '../components/Legend'
 import { useState } from 'react'
+import api from '../lib/api'
 
 Index.propTypes = {
   legends: PropTypes.array,
@@ -58,8 +58,7 @@ export default function Index({ legends }) {
 }
 
 Index.getInitialProps = async function(ctx) {
-  const res = await fetch(`http://localhost:4401/v1/legends?patch=${ctx.query.patch}&tier=${ctx.query.tier}`)
-  const data = await res.json()
+  const data = await api.get(`/v1/legends?patch=${ctx.query.patch}&tier=${ctx.query.tier}`)
 
   return {
     legends: data.legends || [],

@@ -1,6 +1,6 @@
-import fetch from 'isomorphic-unfetch'
 import PropTypes from 'prop-types'
 import Link from 'next/link'
+import api from '../lib/api'
 
 Search.propTypes = {
   player: PropTypes.object.isRequired,
@@ -141,7 +141,7 @@ export default function Search({ player, clan, legends }) {
 
 Search.getInitialProps = async function(ctx) {
   const brawlhallaID = ctx.query.brawlhalla_id
-  const data = await fetch(`http://localhost:4401/v1/ranking/user/${brawlhallaID}`).then(res => res.json())
+  const data = await api.get(`/v1/ranking/user/${brawlhallaID}`)
 
   return data
 }

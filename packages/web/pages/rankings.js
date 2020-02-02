@@ -1,7 +1,7 @@
-import fetch from 'isomorphic-unfetch'
 import PropTypes from 'prop-types'
 import Router, { useRouter } from 'next/router'
 import Link from 'next/link'
+import api from '../lib/api'
 
 Rankings.propTypes = {
   legends: PropTypes.array,
@@ -66,13 +66,11 @@ export default function Rankings({ legends, players }) {
 }
 
 Rankings.getInitialProps = async function(ctx) {
-  const { legends } = await fetch(`http://localhost:4401/v1/legends`).then(res => res.json())
+  const { legends } = await api.get(`/v1/legends`)
 
   const rankingLegend = ctx.query.legend || legends[0].legend_id
   const sort = ctx.query.sort || 'mastery'
-  const rankingData = await fetch(`http://localhost:4401/v1/ranking/legend/${rankingLegend}?sort=${sort}`).then(res =>
-    res.json()
-  )
+  const rankingData = await api.get(`/v1/ranking/legend/${rankingLegend}?sort=${sort}`)
 
   return {
     legends: legends || [],

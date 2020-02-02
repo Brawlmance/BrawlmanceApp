@@ -1,7 +1,7 @@
-import fetch from 'isomorphic-unfetch'
 import PropTypes from 'prop-types'
 import Weapon from '../components/Weapon'
 import { useState } from 'react'
+import api from '../lib/api'
 
 Weapons.propTypes = {
   weapons: PropTypes.array,
@@ -27,9 +27,7 @@ export default function Weapons({ weapons }) {
 }
 
 Weapons.getInitialProps = async function(ctx) {
-  const data = await fetch(
-    `http://localhost:4401/v1/weapons?patch=${ctx.query.patch}&tier=${ctx.query.tier}`
-  ).then(res => res.json())
+  const data = await api.get(`/v1/weapons?patch=${ctx.query.patch}&tier=${ctx.query.tier}`)
 
   return {
     weapons: data.weapons || [],
