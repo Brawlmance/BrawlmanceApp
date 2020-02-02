@@ -2,6 +2,7 @@ module.exports = {
     apps: [
         {
             name: 'BrawlmanceAPI',
+            cwd: './packages/api',
             script: './packages/api/index.js',
             env: {
                 NODE_ENV: 'production',
@@ -11,7 +12,8 @@ module.exports = {
         },
         {
             name: 'BrawlmanceWeb',
-            script: './packages/web/__sapper__/build',
+            cwd: './packages/web',
+            script: './packages/web/node_modules/next/dist/bin/next-start',
             env: {
                 NODE_ENV: 'production',
             },

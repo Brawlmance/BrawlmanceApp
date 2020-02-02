@@ -40,7 +40,7 @@ app.all('*', function(req, res) {
 app.use(errorHandler)
 function errorHandler(err, req, res, next) {
   console.error(err.stack)
-  res.status(500).json({ error: 'Error 500: Algo salió mal' })
+  res.status(500).json({ error: 'Error 500: Internal server error' })
 }
 
 server.listen(4401, () => {
