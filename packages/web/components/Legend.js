@@ -74,37 +74,37 @@ export default function Legend({ legend, sort, setSort }) {
           <p>
             Dmg dealt <Chevron type="damagedealt" sort={sort} setSort={setSort} />
           </p>
-          {legend.stats.damagedealt.toLocaleString()}
+          {legend.stats.damagedealt.toFixed(0)}
           <div className="damagedealt">
-            Unarmed: {((legend.stats.damagedealt_unarmed / legend.stats.damagedealt) * 100, 1).toLocaleString() + '%'}
+            Unarmed: {((legend.stats.damagedealt_unarmed / legend.stats.damagedealt) * 100).toFixed(2) + '%'}
           </div>
           <div className="damagedealt">
-            Gadgets: {((legend.stats.damagedealt_gadgets / legend.stats.damagedealt) * 100, 1).toLocaleString() + '%'}
+            Gadgets: {((legend.stats.damagedealt_gadgets / legend.stats.damagedealt) * 100).toFixed(2) + '%'}
           </div>
           <div className="damagedealt">
             {weaponId2Name(legend.weapon_one)}:{' '}
-            {((legend.stats.damagedealt_weaponone / legend.stats.damagedealt) * 100, 1).toLocaleString() + '%'}
+            {((legend.stats.damagedealt_weaponone / legend.stats.damagedealt) * 100).toFixed(2) + '%'}
           </div>
           <div className="damagedealt">
             {weaponId2Name(legend.weapon_two)}:{' '}
-            {((legend.stats.damagedealt_weapontwo / legend.stats.damagedealt) * 100, 1).toLocaleString() + '%'}
+            {((legend.stats.damagedealt_weapontwo / legend.stats.damagedealt) * 100).toFixed(2) + '%'}
           </div>
         </div>
         <div>
           <p>
             Match duration <Chevron type="matchtime" sort={sort} setSort={setSort} />
           </p>{' '}
-          {legend.stats.matchtime.toLocaleString()} seconds
+          {legend.stats.matchtime.toFixed(0)} seconds
           <div className="matchtime">
-            Unarmed: {((legend.stats.matchtime_unarmed / legend.stats.matchtime) * 100, 1).toLocaleString() + '%'}
+            Unarmed: {((legend.stats.matchtime_unarmed / legend.stats.matchtime) * 100).toFixed(2) + '%'}
           </div>
           <div className="matchtime">
             {weaponId2Name(legend.weapon_one)}:{' '}
-            {((legend.stats.matchtime_weaponone / legend.stats.matchtime) * 100, 1).toLocaleString() + '%'}
+            {((legend.stats.matchtime_weaponone / legend.stats.matchtime) * 100).toFixed(2) + '%'}
           </div>
           <div className="matchtime">
             {weaponId2Name(legend.weapon_two)}:{' '}
-            {((legend.stats.matchtime_weapontwo / legend.stats.matchtime) * 100, 1).toLocaleString() + '%'}
+            {((legend.stats.matchtime_weapontwo / legend.stats.matchtime) * 100).toFixed(2) + '%'}
           </div>
         </div>
       </div>
