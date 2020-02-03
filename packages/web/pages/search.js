@@ -20,7 +20,7 @@ export default function Search({ player, clan, legends }) {
     overallDamageTaken += legend.damagetaken
   })
 
-  const agoStr = timeDifference(Date.now() / 1000, player.lastupdated)
+  const agoStr = timeDifference(Date.now(), player.lastupdated * 1000)
 
   const urlQueries = useUrlQueries({
     brawlhalla_id: player.brawlhalla_id,

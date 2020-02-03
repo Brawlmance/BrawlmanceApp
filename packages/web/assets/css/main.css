@@ -61,7 +61,6 @@ header {
 	background: rgba(0, 0, 0, 0.08);
 	border-bottom: 1px solid black;
     padding: 7px 0;
-    margin-bottom: 7px;
     overflow: auto;
 }
 header div {
@@ -138,8 +137,13 @@ header div {
 
 #content {
 	padding: 0 10px;
+	text-align: center;
 }
 
+/* about */
+.about {
+	text-align: left;
+}
 
 /* main */
 .tops {

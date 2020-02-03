@@ -6,7 +6,7 @@ About.propTypes = {
 }
 export default function About({ randomFact }) {
   return (
-    <>
+    <div className="about">
       <p>Data collected from the top ~400,000 brawlhalla players (Roughly from Silver 2 to Top 1)</p>
       <p>
         We don&apos;t have a way to only count ranked matches (until they release the game history API), so we&apos;re
@@ -24,7 +24,7 @@ export default function About({ randomFact }) {
       <p>
         This project is open source! Check it out at <a href="https://github.com/Brawlmance">Github</a>
       </p>
-    </>
+    </div>
   )
 }
 
