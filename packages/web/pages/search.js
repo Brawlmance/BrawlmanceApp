@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import Link from 'next/link'
 import api from '../lib/api'
+import useUrlQueries from '../lib/useUrlQueries'
 
 Search.propTypes = {
   player: PropTypes.object.isRequired,
@@ -21,16 +22,19 @@ export default function Search({ player, clan, legends }) {
 
   const agoStr = timeDifference(Date.now() / 1000, player.lastupdated)
 
+  const urlQueries = useUrlQueries({
+    brawlhalla_id: player.brawlhalla_id,
+  })
   return (
     <>
       <div className="profile-header">
         <div className="name">
-          <Link href={`/search?brawlhalla_id=${player.brawlhalla_id}`}>
+          <Link href={`/search${urlQueries}`}>
             <a>
               <img className="avatar" alt="" src={`/img/legends/${legends[0].legend_id}.png`} />
             </a>
           </Link>
-          <Link href={`/search?brawlhalla_id=${player.brawlhalla_id}`}>
+          <Link href={`/search${urlQueries}`}>
             <a>
               <h1>
                 {player.name} ({player.region})

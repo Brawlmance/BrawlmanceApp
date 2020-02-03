@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import Router, { useRouter } from 'next/router'
 import Link from 'next/link'
 import api from '../lib/api'
+import useUrlQueries from '../lib/useUrlQueries'
 
 Rankings.propTypes = {
   legends: PropTypes.array,
@@ -84,11 +85,14 @@ Player.propTypes = {
   rank: PropTypes.number.isRequired,
 }
 function Player({ player, rank, sort }) {
+  const urlQueries = useUrlQueries({
+    brawlhalla_id: player.brawlhalla_id,
+  })
   return (
     <tr>
       <td>{ordinalSuffixOf(rank)}</td>
       <td>
-        <Link href={`/search?brawlhalla_id=${player.brawlhalla_id}`}>
+        <Link href={`/search${urlQueries}`}>
           <a>{player.name}</a>
         </Link>
         <p className="region">{player.region}</p>

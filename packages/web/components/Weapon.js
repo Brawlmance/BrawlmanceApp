@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import Link from 'next/link'
 import Chevron from './Chevron'
+import useUrlQueries from '../lib/useUrlQueries'
 
 function weaponId2Name(name) {
   switch (name) {
@@ -23,11 +24,12 @@ Weapon.propTypes = {
   setSort: PropTypes.func.isRequired,
 }
 export default function Weapon({ weapon, sort, setSort }) {
+  const urlQueries = useUrlQueries()
   return (
     <div className="card" id={weapon.weapon_id}>
       <img alt="" src={`/img/weapons/${weapon.weapon_id}.png`} />
       <p>
-        <Link href={`/weapons#${weapon.weapon_id}`}>
+        <Link href={`/weapons${urlQueries}#${weapon.weapon_id}`}>
           <a>
             <b>{weaponId2Name(weapon.weapon_id)}</b>
           </a>

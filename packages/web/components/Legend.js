@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import Chevron from './Chevron'
 import Link from 'next/link'
+import useUrlQueries from '../lib/useUrlQueries'
 
 function legendName2divId(legend) {
   return legend.bio_name.replace(' ', '')
@@ -26,11 +27,12 @@ Legend.propTypes = {
   setSort: PropTypes.func.isRequired,
 }
 export default function Legend({ legend, sort, setSort }) {
+  const urlQueries = useUrlQueries()
   return (
     <div className="card" id={legendName2divId(legend)}>
       <img alt="" src={`/img/legends/${legend.legend_id}.png`} />
       <p>
-        <Link href={`/legends#${legendName2divId(legend)}`}>
+        <Link href={`/legends${urlQueries}#${legendName2divId(legend)}`}>
           <a>
             <b>{legend.bio_name}</b>
           </a>

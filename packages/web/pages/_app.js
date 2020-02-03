@@ -10,6 +10,8 @@ import PropTypes from 'prop-types'
 import setupGoogleAnalytics from '../lib/google_analytics'
 import usePatchAndTier, { changePatch, changeTier } from '../components/usePatchAndTier'
 import api from '../lib/api'
+import useUrlQueries from '../lib/useUrlQueries'
+import cache from '../lib/cache'
 
 setupGoogleAnalytics()
 
@@ -52,7 +54,12 @@ export default function MyApp({ Component, pageProps, headerData }) {
 MyApp.getInitialProps = async ctx => {
   const appProps = await App.getInitialProps(ctx)
 
-  const headerData = await api.get(`/v1/patches?tier=${ctx.router.query.tier}`)
+  const headerDataKey = `headerData:${ctx.router.query.tier}`
+  let headerData = cache.get(headerDataKey)
+  if (headerData === undefined) {
+    headerData = await api.get(`/v1/patches?tier=${ctx.router.query.tier}`)
+    cache.set(headerDataKey, headerData)
+  }
 
   return { ...appProps, headerData }
 }
@@ -62,6 +69,7 @@ Header.propTypes = {
 }
 function Header({ headerData }) {
   const { patch, tier } = usePatchAndTier()
+  const urlQueries = useUrlQueries()
   const patches = headerData.patches
   const tiers = headerData.tiers
   let totalGamesThisPatch = 0
@@ -74,29 +82,29 @@ function Header({ headerData }) {
         <div id="menu">
           <ul>
             <li id="brawlmance">
-              <Link href="/">
+              <Link href={`/${urlQueries}`}>
                 <a>
                   <img src={require('../assets/img/logo.png')} alt="Logo" /> BRAWLMANCE
                 </a>
               </Link>
             </li>
             <li>
-              <Link href="/legends">
+              <Link href={`/legends${urlQueries}`}>
                 <a>LEGENDS</a>
               </Link>
             </li>
             <li>
-              <Link href="/weapons">
+              <Link href={`/weapons${urlQueries}`}>
                 <a>WEAPONS</a>
               </Link>
             </li>
             <li>
-              <Link href="/rankings">
+              <Link href={`/rankings${urlQueries}`}>
                 <a>RANKINGS</a>
               </Link>
             </li>
             <li>
-              <Link href="/about">
+              <Link href={`/about${urlQueries}`}>
                 <a>ABOUT</a>
               </Link>
             </li>
