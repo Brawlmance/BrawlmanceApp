@@ -140,10 +140,6 @@ function Header({ headerData }) {
           <p>WARNING: We don&apos;t have enough data yet</p>
         </div>
       )}
-      <div className="header_warning">
-        <p>We lost all historical data, and are working on recovering it.</p>
-        <p>Additionally, this webpage has been rebuilt from the ground up, so there might be some bugs.</p>
-      </div>
     </>
   )
 }
