@@ -15,18 +15,18 @@ import cache from '../lib/cache'
 
 setupGoogleAnalytics()
 
+const randomBG = [
+  require('../assets/img/bg/bg1.jpg'),
+  require('../assets/img/bg/bg2.jpg'),
+  require('../assets/img/bg/bg3.jpg'),
+][Math.floor(Date.now() / 60000) % 3]
+
 MyApp.propTypes = {
   Component: PropTypes.func.isRequired,
   pageProps: PropTypes.object.isRequired,
   headerData: PropTypes.object.isRequired,
 }
 export default function MyApp({ Component, pageProps, headerData }) {
-  const randomBG = [
-    require('../assets/img/bg/bg1.jpg'),
-    require('../assets/img/bg/bg2.jpg'),
-    require('../assets/img/bg/bg3.jpg'),
-  ][Math.floor(Date.now() / 60000) % 3]
-
   return (
     <>
       <Head>
