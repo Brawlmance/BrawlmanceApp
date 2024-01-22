@@ -1,7 +1,7 @@
 module.exports = {
     apps: [
         {
-            name: 'BrawlmanceAPI',
+            name: 'brawlmance-api',
             cwd: './packages/api',
             script: 'npm',
             args: 'run start',
@@ -11,7 +11,7 @@ module.exports = {
             instances: 1,
         },
         {
-            name: 'BrawlmanceWeb',
+            name: 'brawlmance-web',
             cwd: './packages/web',
             script: 'npm',
             args: 'run start',
