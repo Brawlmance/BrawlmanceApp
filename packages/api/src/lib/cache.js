@@ -1,23 +1,24 @@
-const cache = new Map()
+const cacheMap = new Map()
 
-module.exports = {
+const cache = {
   get(key) {
-    const cacheRow = cache.get(key)
+    const cacheRow = cacheMap.get(key)
     if (!cacheRow) return undefined
     return cacheRow.value
   },
   set(key, value, ttl = 600) {
     const diesAt = Date.now() + ttl * 1000
     const newCacheRow = { value, diesAt }
-    cache.set(key, newCacheRow)
+    cacheMap.set(key, newCacheRow)
   },
 }
+module.exports = cache
 
 setInterval(() => {
   const tsNow = Date.now()
-  cache.forEach((cacheRow, key) => {
+  cacheMap.forEach((cacheRow, key) => {
     if (cacheRow.diesAt < tsNow) {
-      cache.delete(key)
+      cacheMap.delete(key)
     }
   })
 }, 1000)
