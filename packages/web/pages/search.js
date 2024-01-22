@@ -9,6 +9,7 @@ Search.propTypes = {
 export default function Search({ rankingUserData }) {
   if (rankingUserData.error) return <div>{rankingUserData.error}</div>
   const { player, clan, legends } = rankingUserData
+  if (legends.length === 0) return <div>No data for {player.name}</div>
 
   let overallTotalGames = 0
   let overallDamageDealt = 0
