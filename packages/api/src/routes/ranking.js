@@ -53,6 +53,7 @@ module.exports = app => {
       res.status(404).json({
         error: 'Player ID not found',
       })
+      return
     }
 
     const [
