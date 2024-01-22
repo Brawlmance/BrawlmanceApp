@@ -4,12 +4,11 @@ import api from '../lib/api'
 import useUrlQueries from '../lib/useUrlQueries'
 
 Search.propTypes = {
-  player: PropTypes.object.isRequired,
-  clan: PropTypes.object,
-  legends: PropTypes.array.isRequired,
+  rankingUserData: PropTypes.object,
 }
-export default function Search({ player, clan, legends }) {
-  if (!player) return null
+export default function Search({ rankingUserData }) {
+  if (!rankingUserData) return <div>User not found</div>
+  const { player, clan, legends } = rankingUserData
 
   let overallTotalGames = 0
   let overallDamageDealt = 0
@@ -147,7 +146,9 @@ Search.getInitialProps = async function(ctx) {
   const brawlhallaID = ctx.query.brawlhalla_id
   const data = await api.get(`/v1/ranking/user/${brawlhallaID}`)
 
-  return data
+  return {
+    rankingUserData: data
+  }
 }
 function timeDifference(current, previous) {
   var msPerMinute = 60 * 1000
