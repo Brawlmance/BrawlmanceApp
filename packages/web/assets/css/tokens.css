@@ -1,0 +1,48 @@
+/**
+ * Design tokens — single source for colors, typography, and layout constants.
+ * Import first in global.css.
+ */
+:root {
+  --font-sans: 'Lato', sans-serif;
+  --font-size-base: 1em;
+  --line-height-base: 1.4;
+
+  --color-page-bg: #444349;
+  --color-text: #ccc;
+  --color-text-inverse: #333;
+  --color-overlay-panel: rgba(68, 67, 73, 0.5);
+  --color-overlay-header: rgba(0, 0, 0, 0.08);
+  --color-border-strong: #000;
+  --color-shadow-elevated: #212123;
+
+  --color-link: #d7d000;
+  --color-link-hover: #d7d0a0;
+
+  --color-selection: #b3d4fc;
+
+  --color-positive: #3bd049;
+  --color-negative: #c24444;
+  --color-accent: #4b805c;
+  --color-stat-accent: #b7a3da;
+
+  --color-muted: #777;
+  --color-border-muted: #777;
+  --color-footer-text: #eee;
+
+  --color-control-bg: rgba(255, 255, 255, 0.92);
+  --color-control-border: rgba(0, 0, 0, 0.2);
+  --color-dropdown-bg: #fff;
+  --color-focus-ring: rgba(75, 128, 92, 0.45);
+  --color-highlight-bg: rgba(75, 128, 92, 0.12);
+  --color-search-input-bg: rgba(0, 0, 0, 0.03);
+  --color-search-input-focus-bg: rgba(75, 128, 92, 0.08);
+
+  --color-legend-positive: #3f8c3f;
+  --color-legend-negative: #d43e3e;
+
+  --layout-max-width: 1024px;
+  --z-index-content: 3;
+  --z-index-bg: 1;
+  --z-index-select: 200;
+  --z-index-select-searchable: 250;
+}

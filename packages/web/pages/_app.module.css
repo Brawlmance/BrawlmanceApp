@@ -1,0 +1,139 @@
+/* App chrome: background, main column, header, footer */
+.backgroundImage {
+  min-height: 100%;
+  min-width: 1024px;
+  width: 100%;
+  height: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-index-bg);
+}
+
+@media screen and (max-width: 1024px) {
+  .backgroundImage {
+    left: 50%;
+    margin-left: -512px;
+  }
+}
+
+.shell {
+  width: 100%;
+  max-width: var(--layout-max-width);
+  background: var(--color-overlay-panel);
+  box-shadow: 0 0 4px var(--color-shadow-elevated);
+  position: absolute;
+  z-index: var(--z-index-content);
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.siteHeader {
+  width: 100%;
+  background: var(--color-overlay-header);
+  border-bottom: 1px solid var(--color-border-strong);
+  padding: 7px 0;
+  overflow: auto;
+}
+
+.nav {
+  font-size: 0.9em;
+  float: left;
+}
+
+.nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.brandItem {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+@media (max-width: 360px) {
+  .brandItem {
+    width: 100%;
+    margin: 0.1em 0 0.6em 0;
+  }
+}
+
+.nav li {
+  display: block;
+  float: left;
+  padding: 0 10px;
+  min-height: 22px;
+}
+
+.nav li img {
+  height: 28px;
+  width: 28px;
+  margin-top: -8px;
+  margin-right: 3px;
+  position: relative;
+  top: 2px;
+}
+
+.aggregationStatus {
+  float: right;
+  font-size: 15px;
+  text-align: center;
+}
+
+@media (max-width: 1023px) {
+  .aggregationStatus {
+    width: 100%;
+    margin-top: 10px;
+  }
+  .nav {
+    width: 100%;
+  }
+}
+
+.analyzedCount {
+  display: inline-block;
+  margin: 0;
+  padding: 0 1em;
+}
+
+.dataWarning {
+  text-align: center;
+  border-bottom: 1px solid var(--color-border-strong);
+  padding: 2px 0;
+  line-height: 1;
+  font-weight: bold;
+}
+
+.dataWarning p {
+  margin: 0.5em 0;
+}
+
+.content {
+  padding: 0 10px;
+  text-align: center;
+  transition: opacity 500ms ease;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.contentLoading {
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.loadingPlaceholder {
+  opacity: 0.85;
+  font-style: italic;
+}
+
+.siteFooter {
+  color: var(--color-footer-text);
+  font-size: 13px;
+  text-align: center;
+  padding-top: 30px;
+  padding-bottom: 5px;
+  width: 80%;
+  margin: 0 auto;
+}

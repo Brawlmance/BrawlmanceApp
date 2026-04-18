@@ -6,6 +6,7 @@ import type { LegendRow } from '../types/brawlmance'
 import type { NextPageContext } from 'next'
 import AppSearchableSelect from '../components/AppSearchableSelect'
 import AppSelect from '../components/AppSelect'
+import styles from './rankings.module.css'
 
 /** TODO: align with /v1/ranking/legend/:id players rows */
 type RankingsPlayerRow = {
@@ -47,7 +48,7 @@ export default function Rankings({ legends, players }: RankingsProps) {
 
   return (
     <>
-      <div id="rankingform">
+      <div className={styles.form} id="rankingform">
         <AppSearchableSelect
           aria-label="Legend"
           value={legendValue}
@@ -56,7 +57,7 @@ export default function Rankings({ legends, players }: RankingsProps) {
             value: String(legend.legend_id),
             label: legend.bio_name,
           }))}
-          className="app-select--ranking"
+          variant="ranking"
           searchPlaceholder="Search legends…"
         />
         <AppSelect
@@ -68,11 +69,11 @@ export default function Rankings({ legends, players }: RankingsProps) {
             { value: 'elo', label: 'Elo' },
             { value: 'peak_elo', label: 'Peak Elo' },
           ]}
-          className="app-select--ranking"
+          variant="ranking"
         />
       </div>
-      <div style={{ overflow: 'auto' }}>
-        <table id="ranking">
+      <div className={styles.tableWrap}>
+        <table className={styles.table} id="ranking">
           <thead>
             <tr>
               <th>Rank</th>
@@ -117,14 +118,15 @@ function Player({ player, rank, sort }: { player: RankingsPlayerRow; sort: strin
       <td>{ordinalSuffixOf(rank)}</td>
       <td>
         <Link href={`/search${urlQueries}`}>{player.name}</Link>
-        <p className="region">{player.region}</p>
+        <p className={styles.region}>{player.region}</p>
       </td>
       <td>
         <p>
           {sort === 'peak_elo' ? player.peak_rating : player.rating} {sort === 'peak_elo' ? 'peak elo' : 'elo'}
         </p>
         <p>
-          <span className="wins">{player.wins}W</span> <span className="losses">{player.games - player.wins} L</span>
+          <span className={styles.wins}>{player.wins}W</span>{' '}
+          <span className={styles.losses}>{player.games - player.wins} L</span>
         </p>
       </td>
       <td>

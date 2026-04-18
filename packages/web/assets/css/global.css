@@ -1,0 +1,40 @@
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/*! Base styles (evolved from HTML5 Boilerplate) */
+a {
+  color: var(--color-link);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--color-link-hover);
+  text-decoration: none;
+}
+
+::-moz-selection {
+  background: var(--color-selection);
+  text-shadow: none;
+}
+::selection {
+  background: var(--color-selection);
+  text-shadow: none;
+}
+
+body {
+  color: var(--color-text);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  background: var(--color-page-bg);
+  overflow-y: scroll;
+  font-family: var(--font-sans);
+  word-break: break-word;
+}
+
+h1 {
+  text-align: center;
+}

@@ -3,6 +3,7 @@ import * as Popover from '@radix-ui/react-popover'
 import { Command, defaultFilter } from 'cmdk'
 import type { AppSelectOption } from './AppSelect'
 import { useExclusiveOpenState } from './ExclusiveOverlayContext'
+import styles from './AppSelect.module.css'
 
 /** Latin combining marks (NFD); keeps search usable when typing without accents. */
 function stripDiacritics(text: string): string {
@@ -18,7 +19,7 @@ type AppSearchableSelectProps = {
   options: AppSelectOption[]
   name?: string
   'aria-label'?: string
-  className?: string
+  variant?: 'default' | 'header' | 'ranking'
   searchPlaceholder?: string
 }
 
@@ -36,7 +37,7 @@ export default function AppSearchableSelect({
   options,
   name,
   'aria-label': ariaLabel,
-  className,
+  variant = 'default',
   searchPlaceholder = 'Search…',
 }: AppSearchableSelectProps) {
   const [open, setExclusiveOpen] = useExclusiveOpenState()
@@ -46,7 +47,6 @@ export default function AppSearchableSelect({
   useLayoutEffect(() => {
     if (!open) return
     let cancelled = false
-    // Portal + cmdk mount after layout; double rAF so the input ref is attached before focus.
     const outer = requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         if (!cancelled) searchInputRef.current?.focus({ preventScroll: true })
@@ -63,6 +63,8 @@ export default function AppSearchableSelect({
   const safeValue = options.some((o) => o.value === value) ? value : options[0].value
   const selectedLabel = options.find((o) => o.value === safeValue)?.label ?? safeValue
 
+  const triggerClass = [styles.trigger, variant === 'ranking' ? styles.triggerRanking : ''].filter(Boolean).join(' ')
+
   return (
     <Popover.Root
       modal={false}
@@ -74,45 +76,41 @@ export default function AppSearchableSelect({
       <Popover.Trigger asChild>
         <button
           type="button"
-          className={`app-select-trigger ${className ?? ''}`.trim()}
+          className={triggerClass}
           name={name}
           aria-label={ariaLabel}
           aria-haspopup="listbox"
           aria-expanded={open}>
-          <span className="app-select-value">{selectedLabel}</span>
-          <span className="app-select-icon">
+          <span className={styles.value}>{selectedLabel}</span>
+          <span className={styles.icon}>
             <ChevronDown />
           </span>
         </button>
       </Popover.Trigger>
       <Popover.Portal>
         <Popover.Content
-          className="app-select-content app-select-content--searchable"
+          className={`${styles.content} ${styles.contentSearchable}`}
           sideOffset={4}
           collisionPadding={12}
           align="start"
           avoidCollisions
-          onOpenAutoFocus={(e) => e.preventDefault()}
-          style={{
-            width: 'max(var(--radix-popper-anchor-width, 160px), min(100vw - 24px, 320px))',
-            maxWidth: 'min(100vw - 24px, 360px)',
-          }}>
+          onOpenAutoFocus={(e) => e.preventDefault()}>
           <Command
             key={menuKey}
-            className="app-select-command"
+            className={styles.command}
             label={ariaLabel ?? 'Options'}
             loop
             shouldFilter
             filter={diacriticInsensitiveFilter}>
-            <Command.Input ref={searchInputRef} className="app-select-search-input" placeholder={searchPlaceholder} />
-            <Command.List className="app-select-command-list">
-              <Command.Empty className="app-select-empty">No matches.</Command.Empty>
+            <Command.Input ref={searchInputRef} className={styles.searchInput} placeholder={searchPlaceholder} />
+            <Command.List className={styles.commandList}>
+              <Command.Empty className={styles.empty}>No matches.</Command.Empty>
               {options.map((opt) => (
                 <Command.Item
                   key={opt.value}
                   value={opt.value}
                   keywords={[opt.label, opt.value]}
-                  className="app-select-item"
+                  className={styles.item}
                   onSelect={() => {
                     onValueChange(opt.value)
                     setExclusiveOpen(false)

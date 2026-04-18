@@ -4,6 +4,8 @@ import type { StaticImageData } from 'next/image'
 import Chevron from './Chevron'
 import useUrlQueries from '../lib/useUrlQueries'
 import type { SortState, WeaponRow } from '../types/brawlmance'
+import { useHashTargetMatch } from './useHashTargetMatch'
+import styles from './LegendCard.module.css'
 
 function weaponId2Name(name: string): string {
   switch (name) {
@@ -28,6 +30,7 @@ type WeaponProps = {
 
 export default function Weapon({ weapon, sort, setSort }: WeaponProps) {
   const urlQueries = useUrlQueries()
+  const hashMatches = useHashTargetMatch(weapon.weapon_id)
   let weaponImage: StaticImageData | undefined
   try {
     // eslint-disable-next-line import/no-commonjs
@@ -37,26 +40,25 @@ export default function Weapon({ weapon, sort, setSort }: WeaponProps) {
   }
 
   return (
-    <div className="card" id={weapon.weapon_id}>
+    <div
+      className={[styles.card, hashMatches ? styles.cardHighlighted : ''].filter(Boolean).join(' ')}
+      id={weapon.weapon_id}>
       <p>
         <Link href={`/weapons${urlQueries}#${weapon.weapon_id}`}>
           {weaponImage && (
             <Image
+              className={styles.weaponThumb}
               src={weaponImage}
               alt={weaponId2Name(weapon.weapon_id)}
               width={28}
               height={28}
-              style={{
-                borderRadius: '4px',
-                marginRight: '5px',
-              }}
             />
           )}
           <b>{weaponId2Name(weapon.weapon_id)}</b>
         </Link>
         <Chevron type="weapon_id" sort={sort} setSort={setSort} />
       </p>
-      <div className="statistical">
+      <div className={styles.statistical}>
         <div>
           <p>
             Playr/Legends

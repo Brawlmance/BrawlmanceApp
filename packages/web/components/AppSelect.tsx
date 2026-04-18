@@ -1,5 +1,6 @@
 import * as Select from '@radix-ui/react-select'
 import { useExclusiveOpenState } from './ExclusiveOverlayContext'
+import styles from './AppSelect.module.css'
 
 export type AppSelectOption = { value: string; label: string }
 
@@ -10,7 +11,8 @@ type AppSelectProps = {
   /** Passed to the trigger for form-like semantics / tests */
   name?: string
   'aria-label'?: string
-  className?: string
+  /** Header bar vs rankings form sizing */
+  variant?: 'default' | 'header' | 'ranking'
 }
 
 function ChevronDown() {
@@ -27,7 +29,7 @@ export default function AppSelect({
   options,
   name,
   'aria-label': ariaLabel,
-  className,
+  variant = 'default',
 }: AppSelectProps) {
   const [open, onOpenChange] = useExclusiveOpenState()
 
@@ -35,23 +37,25 @@ export default function AppSelect({
 
   const safeValue = options.some((o) => o.value === value) ? value : options[0].value
 
+  const triggerClass = [styles.trigger, variant === 'ranking' ? styles.triggerRanking : ''].filter(Boolean).join(' ')
+
   return (
     <Select.Root open={open} onOpenChange={onOpenChange} value={safeValue} onValueChange={onValueChange}>
-      <Select.Trigger className={`app-select-trigger ${className ?? ''}`.trim()} name={name} aria-label={ariaLabel}>
+      <Select.Trigger className={triggerClass} name={name} aria-label={ariaLabel}>
         <Select.Value />
-        <Select.Icon className="app-select-icon">
+        <Select.Icon className={styles.icon}>
           <ChevronDown />
         </Select.Icon>
       </Select.Trigger>
       <Select.Portal>
         <Select.Content
-          className="app-select-content"
+          className={styles.content}
           position="popper"
           sideOffset={4}
           onCloseAutoFocus={(e) => e.preventDefault()}>
-          <Select.Viewport className="app-select-viewport">
+          <Select.Viewport className={styles.viewport}>
             {options.map((opt) => (
-              <Select.Item key={opt.value} value={opt.value} className="app-select-item">
+              <Select.Item key={opt.value} value={opt.value} className={styles.item}>
                 <Select.ItemText>{opt.label}</Select.ItemText>
               </Select.Item>
             ))}

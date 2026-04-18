@@ -1,4 +1,5 @@
 import Weapon from '../components/Weapon'
+import csvBlock from '../components/CsvDownloadBlock.module.css'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import api from '../lib/api'
@@ -42,15 +43,13 @@ export default function Weapons({ weapons }: WeaponsProps) {
         return <Weapon key={weapon.weapon_id} weapon={weapon} sort={sort} setSort={setSort} />
       })}
 
-      <div style={{ textAlign: 'center', marginTop: '2em' }}>
+      <div className={csvBlock.block}>
         <button
           type="button"
+          className={csvBlock.csvButton}
           onClick={() =>
             downloadCsv(brawlmanceCsvFilename('brawlmance-weapons', router), weaponsToCsvRows(sortedWeapons))
-          }
-          style={{
-            color: '#222',
-          }}>
+          }>
           Download CSV
         </button>
       </div>

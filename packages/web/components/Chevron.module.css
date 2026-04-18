@@ -1,0 +1,15 @@
+:global(.fa).orderfactor {
+  font-size: 10px;
+}
+
+.orderfactor {
+  cursor: pointer;
+  font-size: 10px;
+  position: relative;
+  top: -2px;
+  margin-left: 5px;
+}
+
+.active {
+  color: var(--color-accent);
+}

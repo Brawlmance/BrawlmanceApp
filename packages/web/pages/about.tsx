@@ -1,11 +1,12 @@
 import api from '../lib/api'
 import type { NextPageContext } from 'next'
+import styles from './about.module.css'
 
 type AboutProps = { randomFact: string }
 
 export default function About({ randomFact }: AboutProps) {
   return (
-    <div className="about">
+    <div className={styles.root}>
       <p>
         Due to Brawlhalla&apos;s API limits, our data is collected from the current top ~25,000 ranked brawlhalla
         players (Roughly from Platinum to Top 1)

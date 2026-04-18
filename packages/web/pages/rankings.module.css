@@ -1,0 +1,52 @@
+.form {
+  text-align: center;
+  margin: 1.5em 0;
+}
+
+.tableWrap {
+  overflow: auto;
+}
+
+.table {
+  width: 92%;
+  text-align: center;
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+
+.table,
+.table th,
+.table td {
+  padding: 7px;
+}
+
+.table p {
+  margin: 0 0.3em;
+}
+
+.wins {
+  color: var(--color-positive);
+}
+
+.losses {
+  color: var(--color-negative);
+}
+
+.region {
+  font-size: 0.8em;
+}
+
+@media screen and (max-width: 767px) {
+  .table {
+    width: 100%;
+    font-size: 0.9em;
+  }
+  .table,
+  .table th,
+  .table td {
+    padding: 7px 1px;
+  }
+  .table td {
+    min-width: 3em;
+  }
+}

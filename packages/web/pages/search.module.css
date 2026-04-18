@@ -1,9 +1,4 @@
-#searchForm {
-  text-align: center;
-  margin: 2em 0;
-}
-
-.profile-header {
+.profileHeader {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -13,18 +8,17 @@
   margin-bottom: 2em;
 }
 
-.profile-header .name {
+.profileName {
   padding-left: 5em;
   position: relative;
   margin-right: 2em;
 }
 
-.profile-header .name a {
+.profileName a {
   color: inherit;
 }
 
-.profile-header .avatar {
-  border-radius: 50%;
+.avatar {
   position: absolute;
   top: 0;
   left: 0;
@@ -32,60 +26,59 @@
   height: 4em;
 }
 
-.profile-header h1 {
+.profileTitle {
   font-size: 1.2em;
   margin: 0;
 }
 
-.profile-header .info {
+.profileInfo {
   display: inline-block;
   flex-grow: 1;
   text-align: center;
   max-width: 35em;
 }
 
-.profile-header .info .stat {
+.profileStat {
   display: inline-block;
   margin: 0 1em;
 }
 
-.profile-header .info .stat strong {
+.profileStat strong {
   display: block;
 }
 
-.profile-overall-performance .stats {
+.overallStats {
   text-align: center;
 }
 
-.profile-overall-performance .stats .stat {
+.overallStats .profileStat {
   display: inline-block;
   margin: 0 1em;
 }
 
-.profile-overall-performance .stats .stat strong {
+.overallStats .profileStat strong {
   display: block;
 }
 
-.player-legend {
+.legendRow {
   text-align: center;
   margin: 2em 0;
 }
 
-.player-legend .stat {
+.legendRow .profileStat {
   display: inline-block;
   margin: 0 1em;
 }
 
-.player-legend .stat strong {
+.legendRow .profileStat strong {
   display: block;
 }
 
-.player-legend .name {
+.legendNameRow {
   display: inline-block;
 }
 
-.player-legend .name img {
+.legendNameRow img {
   width: 2em;
   height: 2em;
-  border-radius: 50%;
 }

@@ -1,0 +1,98 @@
+/* Legend + weapon stat cards */
+.card {
+  width: 250px;
+  display: inline-block;
+  transition: background-color 0.5s ease;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* :target works on full reload; .cardHighlighted mirrors it after client navigations */
+.card:target,
+.cardHighlighted {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.card > p {
+  width: 100%;
+  margin-right: 0.3em;
+}
+
+.cardHeaderRow {
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+  justify-content: center;
+}
+
+.legendImageSpacer {
+  width: 25px;
+}
+
+.weaponThumb {
+  border-radius: 4px;
+  margin-right: 5px;
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.stats > .statCell::before {
+  display: inline-block;
+  content: ' ';
+  height: 12px;
+  width: 12px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center left;
+  margin-right: 4px;
+}
+
+.strength::before {
+  background-image: url('/img/stats/strength.png');
+  filter: saturate(0) contrast(99) invert(1);
+}
+
+.dexterity::before {
+  background-image: url('/img/stats/dexterity.png');
+  filter: saturate(0) contrast(99);
+}
+
+.defense::before {
+  background-image: url('/img/stats/defense.png');
+  filter: saturate(0) contrast(99);
+}
+
+.speed::before {
+  background-image: url('/img/stats/speed.png');
+  filter: saturate(0) contrast(99) invert(1);
+}
+
+.statistical {
+  width: 100%;
+  overflow: auto;
+}
+
+.statistical > div {
+  width: 50%;
+  float: left;
+  min-height: 60px;
+  vertical-align: top;
+}
+
+.statistical p {
+  color: var(--color-stat-accent);
+}
+
+.card p {
+  margin: 2px 0;
+}
+
+.detailMuted {
+  font-size: 0.75em;
+}

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import Legend from '../components/Legend'
+import csvBlock from '../components/CsvDownloadBlock.module.css'
+import LegendCard from '../components/LegendCard'
 import api from '../lib/api'
 import { brawlmanceCsvFilename, downloadCsv } from '../lib/downloadCsv'
 import type { LegendRow, SortState } from '../types/brawlmance'
@@ -82,18 +83,16 @@ export default function Legends({ legends }: LegendsProps) {
   return (
     <div>
       {sortedLegends.map((legend) => {
-        return <Legend key={legend.legend_id} legend={legend} sort={sort} setSort={setSort} />
+        return <LegendCard key={legend.legend_id} legend={legend} sort={sort} setSort={setSort} />
       })}
 
-      <div style={{ textAlign: 'center', marginTop: '2em' }}>
+      <div className={csvBlock.block}>
         <button
           type="button"
+          className={csvBlock.csvButton}
           onClick={() =>
             downloadCsv(brawlmanceCsvFilename('brawlmance-legends', router), legendsToCsvRows(sortedLegends))
-          }
-          style={{
-            color: '#222',
-          }}>
+          }>
           Download as CSV
         </button>
       </div>

@@ -1,4 +1,5 @@
 import type { NextPageContext } from 'next'
+import styles from './_error.module.css'
 
 type ErrorProps = {
   statusCode: number | undefined
@@ -6,7 +7,7 @@ type ErrorProps = {
 
 function Error({ statusCode }: ErrorProps) {
   return (
-    <p style={{ textAlign: 'center' }}>
+    <p className={styles.message}>
       {statusCode ? `An error ${statusCode} occurred on server` : 'An error occurred on client'}
     </p>
   )

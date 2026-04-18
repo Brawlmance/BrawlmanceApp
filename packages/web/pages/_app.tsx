@@ -1,7 +1,6 @@
 import '../assets/css/normalize.min.css'
-import '../assets/css/main.css'
-import '../assets/css/search.css'
-import '../assets/css/legend_stats.css'
+import '../assets/css/global.css'
+import styles from './_app.module.css'
 import Head from 'next/head'
 
 import Link from 'next/link'
@@ -41,19 +40,15 @@ export default function MyApp({ Component, pageProps, headerData, bgIndex = 0 }:
         <meta key="viewport" name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <ExclusiveOverlayProvider>
-        <div className="container" id="main">
+        <div className={styles.shell} id="main">
           <Header headerData={headerData} routeLoading={routeLoading} />
           <div
+            className={[styles.content, routeLoading ? styles.contentLoading : ''].filter(Boolean).join(' ')}
             id="content"
-            aria-busy={routeLoading}
-            style={{
-              opacity: routeLoading ? 0.1 : 1,
-              transition: 'opacity 500ms ease',
-              pointerEvents: routeLoading ? 'none' : 'auto',
-            }}>
+            aria-busy={routeLoading}>
             <Component {...pageProps} />
           </div>
-          <footer>
+          <footer className={styles.siteFooter}>
             <p>Backgrounds of stages, legend portraits, and stat icons by Blue Mammoth Games</p>
             <p>Using Brawlhalla, Steam, and Twitch APIs. Using JQuery, TinySort, Chart.js, and FontAwesome</p>
             <p>
@@ -63,7 +58,7 @@ export default function MyApp({ Component, pageProps, headerData, bgIndex = 0 }:
             </p>
           </footer>
         </div>
-        <img className="bg" src={randomBG} alt="" />
+        <img className={styles.backgroundImage} src={randomBG} alt="" />
       </ExclusiveOverlayProvider>
     </>
   )
@@ -136,10 +131,10 @@ function Header({ headerData: headerDataFromApp, routeLoading }: { headerData: H
 
   return (
     <>
-      <header>
-        <div id="menu">
+      <header className={styles.siteHeader}>
+        <div className={styles.nav} id="menu">
           <ul>
-            <li id="brawlmance">
+            <li className={styles.brandItem} id="brawlmance">
               <Link href={`/${urlQueries}`}>
                 <img src={logo.src} width={logo.width} height={logo.height} alt="Logo" /> BRAWLMANCE
               </Link>
@@ -158,7 +153,7 @@ function Header({ headerData: headerDataFromApp, routeLoading }: { headerData: H
             </li>
           </ul>
         </div>
-        <div id="aggregationstatus">
+        <div className={styles.aggregationStatus} id="aggregationstatus">
           <label>
             Patch{' '}
             <AppSearchableSelect
@@ -167,7 +162,7 @@ function Header({ headerData: headerDataFromApp, routeLoading }: { headerData: H
               value={patchValue}
               onValueChange={changePatch}
               options={patches.map((p) => ({ value: p.id, label: p.id }))}
-              className="app-select--header"
+              variant="header"
               searchPlaceholder="Search patches…"
             />
           </label>
@@ -179,14 +174,14 @@ function Header({ headerData: headerDataFromApp, routeLoading }: { headerData: H
               value={tierValue}
               onValueChange={changeTier}
               options={tiers.map((tiername) => ({ value: tiername, label: tiername }))}
-              className="app-select--header"
+              variant="header"
             />
           </label>
 
-          <span id="n_analyzed">
+          <span className={styles.analyzedCount} id="n_analyzed">
             Games analyzed:{' '}
             {headerStatsLoading ? (
-              <span className="loading-placeholder">Loading&hellip;</span>
+              <span className={styles.loadingPlaceholder}>Loading&hellip;</span>
             ) : (
               totalGamesThisPatch.toLocaleString()
             )}
@@ -194,7 +189,7 @@ function Header({ headerData: headerDataFromApp, routeLoading }: { headerData: H
         </div>
       </header>
       {!headerStatsLoading && totalGamesThisPatch < 200000 && (
-        <div className="header_warning">
+        <div className={styles.dataWarning}>
           <p>WARNING: We don&apos;t have enough data yet</p>
         </div>
       )}

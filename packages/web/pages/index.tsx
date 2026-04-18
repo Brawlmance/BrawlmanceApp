@@ -1,5 +1,6 @@
-import Legend from '../components/Legend'
+import LegendCard from '../components/LegendCard'
 import { useState } from 'react'
+import styles from './index.module.css'
 import api from '../lib/api'
 import type { LegendRow, SortState } from '../types/brawlmance'
 import type { NextPageContext } from 'next'
@@ -46,14 +47,14 @@ export default function Index({ legends }: IndexProps) {
     <div>
       <h1>Most played legends</h1>
       {mostPlayedLegends.map((legend) => {
-        return <Legend key={legend.legend_id} legend={legend} sort={sortPlayrate} setSort={setSortPlayrate} />
+        return <LegendCard key={legend.legend_id} legend={legend} sort={sortPlayrate} setSort={setSortPlayrate} />
       })}
       <h1>Highest winrate legends</h1>
       {highestWinrateLegends.map((legend) => {
-        return <Legend key={legend.legend_id} legend={legend} sort={sortWinrate} setSort={setSortWinrate} />
+        return <LegendCard key={legend.legend_id} legend={legend} sort={sortWinrate} setSort={setSortWinrate} />
       })}
       <h1>Most OP legends</h1>
-      <p style={{ textAlign: 'center' }}>The ones that match your play style and make you happy</p>
+      <p className={styles.tagline}>The ones that match your play style and make you happy</p>
     </div>
   )
 }
