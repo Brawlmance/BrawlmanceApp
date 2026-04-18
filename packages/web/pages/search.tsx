@@ -7,9 +7,9 @@ import type { RankingUserResponse, RankingUserLegendRow } from '../types/ranking
 import type { LegendRow } from '../types/brawlmance'
 import styles from './search.module.css'
 
-type SearchProps = { rankingUserData: RankingUserResponse }
+type SearchProps = { rankingUserData: RankingUserResponse; now: number }
 
-export default function Search({ rankingUserData }: SearchProps) {
+export default function Search({ rankingUserData, now }: SearchProps) {
   const urlQueries = useUrlQueries({
     brawlhalla_id: rankingUserData?.player?.brawlhalla_id,
   })
@@ -28,7 +28,7 @@ export default function Search({ rankingUserData }: SearchProps) {
     overallDamageTaken += legend.damagetaken
   })
 
-  const agoStr = timeDifference(Date.now(), player.lastupdated * 1000)
+  const agoStr = timeDifference(now, player.lastupdated * 1000)
   const firstLegend = legends[0] as unknown as LegendRow
 
   return (
@@ -144,6 +144,7 @@ Search.getInitialProps = async function (ctx: NextPageContext) {
 
   return {
     rankingUserData: data,
+    now: Date.now(),
   }
 }
 

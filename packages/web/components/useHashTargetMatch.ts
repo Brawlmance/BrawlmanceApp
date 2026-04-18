@@ -23,6 +23,7 @@ export function useHashTargetMatch(id: string): boolean {
   const [matches, setMatches] = useState(false)
 
   useLayoutEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMatches(urlFragment(router.asPath) === id)
   }, [id, router.asPath])
 
