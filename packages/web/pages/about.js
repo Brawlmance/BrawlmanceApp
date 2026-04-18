@@ -21,10 +21,6 @@ export default function About({ randomFact }) {
         Made with love by <a href="https://balbona.me/">NiciusB</a>
       </p>
       <p>
-        Other cool brawlhalla fansites (and other things): <a href="https://brawldb.com/">BrawlDB</a>,{' '}
-        <a href="https://brawlspot.com/">Brawlspot</a>, <a href="https://www.stats.brawlhalla.fr/">Brawlhalla stats</a>
-      </p>
-      <p>
         This project is open source! Check it out at <a href="https://github.com/Brawlmance">Github</a>
       </p>
     </div>

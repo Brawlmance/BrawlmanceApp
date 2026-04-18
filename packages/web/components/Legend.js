@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types'
 import Chevron from './Chevron'
 import Link from 'next/link'
-import Image from 'next/image'
+import LegendImage from './LegendImage'
 import useUrlQueries from '../lib/useUrlQueries'
+import { useLegendImage } from './useLegendImage'
 
 function legendName2divId(legend) {
   return legend.bio_name.replace(' ', '')
@@ -29,10 +30,7 @@ Legend.propTypes = {
 }
 export default function Legend({ legend, sort, setSort }) {
   const urlQueries = useUrlQueries()
-  let legendImage
-  try {
-    legendImage = require(`../assets/img/legends/${legend.legend_name_key}.png`)
-  } catch (error) {}
+  const legendImage = useLegendImage(legend)
 
   return (
     <div className="card" id={legendName2divId(legend)}>
@@ -46,17 +44,7 @@ export default function Legend({ legend, sort, setSort }) {
         {/* Spacer to visually center the image, and put stats on the right*/}
         {legendImage && <div style={{ width: '25px' }} />}
 
-        {legendImage && (
-          <Image
-            src={legendImage}
-            alt={legend.bio_name}
-            width={90}
-            height={90}
-            style={{
-              borderRadius: '8px',
-            }}
-          />
-        )}
+        {legendImage && <LegendImage legend={legend} />}
 
         <div className="stats">
           <div className="strength">{legend.strength}</div>

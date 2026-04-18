@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import Link from 'next/link'
 import api from '../lib/api'
 import useUrlQueries from '../lib/useUrlQueries'
+import LegendImage from '../components/LegendImage'
 
 Search.propTypes = {
   rankingUserData: PropTypes.object,
@@ -30,7 +31,7 @@ export default function Search({ rankingUserData }) {
       <div className="profile-header">
         <div className="name">
           <Link href={`/search${urlQueries}`}>
-            <img className="avatar" alt="" src={`/img/legends/${legends[0].legend_id}.png`} />
+            <LegendImage className="avatar" legend={legends[0]} />
           </Link>
           <Link href={`/search${urlQueries}`}>
             <h1>
@@ -89,12 +90,7 @@ export default function Search({ rankingUserData }) {
         return (
           <div key={legend.legend_id} className="player-legend">
             <div className="name">
-              <img
-                className="legend-image"
-                alt=""
-                title={legend.bio_name}
-                src={`/img/legends/${legend.legend_id}.png`}
-              />
+              <LegendImage legend={legend} />
             </div>
             <div className="stat">
               <strong>{legend.level}</strong>
