@@ -1,0 +1,67 @@
+import Legend from '../components/Legend'
+import { useState } from 'react'
+import api from '../lib/api'
+import type { LegendRow, SortState } from '../types/brawlmance'
+import type { NextPageContext } from 'next'
+
+type IndexProps = { legends: LegendRow[] }
+
+export default function Index({ legends }: IndexProps) {
+  const [sortWinrate, setSortWinrate] = useState<SortState>({ by: 'winrate', order: 'down' })
+  const [sortPlayrate, setSortPlayrate] = useState<SortState>({ by: 'playrate', order: 'down' })
+
+  if (!legends) return null
+
+  const mostPlayedLegends = legends
+    .sort((a, b) => {
+      return a.stats.playrate > b.stats.playrate ? -1 : 1
+    })
+    .slice(0, 4)
+    .sort((a, b) => {
+      const bigger = sortPlayrate.order === 'up' ? 1 : -1
+      const smaller = sortPlayrate.order === 'up' ? -1 : 1
+
+      if (sortPlayrate.by === 'bio_name') return a[sortPlayrate.by] > b[sortPlayrate.by] ? bigger : smaller
+      return a.stats[sortPlayrate.by as keyof LegendRow['stats']] > b.stats[sortPlayrate.by as keyof LegendRow['stats']]
+        ? bigger
+        : smaller
+    })
+
+  const highestWinrateLegends = legends
+    .sort((a, b) => {
+      return a.stats.winrate > b.stats.winrate ? -1 : 1
+    })
+    .slice(0, 4)
+    .sort((a, b) => {
+      const bigger = sortWinrate.order === 'up' ? 1 : -1
+      const smaller = sortWinrate.order === 'up' ? -1 : 1
+
+      if (sortWinrate.by === 'bio_name') return a[sortWinrate.by] > b[sortWinrate.by] ? bigger : smaller
+      return a.stats[sortWinrate.by as keyof LegendRow['stats']] > b.stats[sortWinrate.by as keyof LegendRow['stats']]
+        ? bigger
+        : smaller
+    })
+
+  return (
+    <div>
+      <h1>Most played legends</h1>
+      {mostPlayedLegends.map(legend => {
+        return <Legend key={legend.legend_id} legend={legend} sort={sortPlayrate} setSort={setSortPlayrate} />
+      })}
+      <h1>Highest winrate legends</h1>
+      {highestWinrateLegends.map(legend => {
+        return <Legend key={legend.legend_id} legend={legend} sort={sortWinrate} setSort={setSortWinrate} />
+      })}
+      <h1>Most OP legends</h1>
+      <p style={{ textAlign: 'center' }}>The ones that match your play style and make you happy</p>
+    </div>
+  )
+}
+
+Index.getInitialProps = async function (ctx: NextPageContext) {
+  const data = (await api.get(`/v1/legends?patch=${ctx.query.patch}&tier=${ctx.query.tier}`)) as { legends?: LegendRow[] }
+
+  return {
+    legends: data.legends || [],
+  }
+}

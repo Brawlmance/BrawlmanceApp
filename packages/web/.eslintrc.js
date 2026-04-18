@@ -4,7 +4,7 @@ module.exports = {
     es6: true,
     node: true,
   },
-  extends: ['next/core-web-vitals', 'plugin:prettier/recommended'],
+  extends: ['next/core-web-vitals', 'prettier'],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
@@ -13,8 +13,18 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
+  overrides: [
+    {
+      files: ['**/*.ts', '**/*.tsx'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        ecmaFeatures: { jsx: true },
+      },
+    },
+  ],
   rules: {
-    'prettier/prettier': ['error', { semi: false }],
     '@next/next/no-img-element': 'off',
   },
 }
