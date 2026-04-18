@@ -127,15 +127,25 @@ type LineBlockProps = {
   legendKey: 'legendWinrates' | 'legendPlayrates'
   averageKey: 'averageWinrates' | 'averagePlayrates'
   ySuffix: string
+  primaryLabel?: string
+  averageLabel?: string
 }
 
-export function LegendPatchLineBlock({ title, patchHistory, legendKey, averageKey, ySuffix }: LineBlockProps) {
+export function LegendPatchLineBlock({
+  title,
+  patchHistory,
+  legendKey,
+  averageKey,
+  ySuffix,
+  primaryLabel = 'This legend',
+  averageLabel = 'Average (all legends)',
+}: LineBlockProps) {
   const data = useMemo(
     () => ({
       labels: patchHistory.patchIds,
       datasets: [
         {
-          label: 'This legend',
+          label: primaryLabel,
           data: patchHistory[legendKey],
           backgroundColor: ORANGE_FILL,
           borderColor: ORANGE,
@@ -145,7 +155,7 @@ export function LegendPatchLineBlock({ title, patchHistory, legendKey, averageKe
           fill: true,
         },
         {
-          label: 'Average (all legends)',
+          label: averageLabel,
           data: patchHistory[averageKey],
           backgroundColor: GRAY_FILL,
           borderColor: GRAY,
@@ -156,7 +166,7 @@ export function LegendPatchLineBlock({ title, patchHistory, legendKey, averageKe
         },
       ],
     }),
-    [patchHistory, legendKey, averageKey]
+    [patchHistory, legendKey, averageKey, primaryLabel, averageLabel]
   )
 
   const options = useMemo(

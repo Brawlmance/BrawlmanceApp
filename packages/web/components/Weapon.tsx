@@ -43,7 +43,7 @@ export default function Weapon({ weapon, sort, setSort }: WeaponProps) {
       className={[styles.card, hashMatches ? styles.cardHighlighted : ''].filter(Boolean).join(' ')}
       id={weapon.weapon_id}>
       <p>
-        <Link href={`/weapons${urlQueries}#${encodeURIComponent(weapon.weapon_id)}`}>
+        <Link href={`/weapon/${encodeURIComponent(weapon.weapon_id)}${urlQueries}`}>
           {weaponImage && (
             <Image
               className={styles.weaponThumb}

@@ -1,75 +1,119 @@
 import type { Express, Request, Response } from 'express'
-import db from '../lib/db'
-import { getPatchDaysCondition, getPatchGlobalInfo, getReqPatchAndTier } from '../lib/utils'
+import { computeRankChanges } from '../lib/legends'
+import cache from '../lib/cache'
+import {
+  buildWeaponPatchHistory,
+  computeWeaponStatRanks,
+  getAllWeaponsWithStats,
+  getWeaponStatsRow,
+  weaponExistsInLegends,
+  weaponStatsRowToRankStats,
+} from '../lib/weapons'
+import { getReqPatchAndTier } from '../lib/utils'
 
 export default function weaponsRoutes(app: Express): void {
   app.get('/v1/weapons', async function (req: Request, res: Response) {
     const { patch, tier } = await getReqPatchAndTier(req)
 
-    const daysCondition = await getPatchDaysCondition(patch, tier)
-    const patchGlobalInfo = await getPatchGlobalInfo(daysCondition)
-
-    const sqlQuery = `
-      WITH weapon_mapping AS (
-        SELECT legend_id, weapon_one AS weapon_id, 1 AS slot FROM legends WHERE weapon_one IS NOT NULL
-        UNION ALL
-        SELECT legend_id, weapon_two AS weapon_id, 2 AS slot FROM legends WHERE weapon_two IS NOT NULL
-      )
-      SELECT 
-        wm.weapon_id,
-        COUNT(DISTINCT wm.legend_id) AS total_legends,
-        SUM(s.games) AS total_games,
-        SUM(s.wins) AS total_wins,
-        SUM(s.matchtime) AS total_matchtime,
-        SUM(CASE WHEN wm.slot = 1 THEN s.damageweaponone ELSE 0 END) AS total_damage_w1,
-        SUM(CASE WHEN wm.slot = 2 THEN s.damageweapontwo ELSE 0 END) AS total_damage_w2,
-        SUM(CASE WHEN wm.slot = 1 THEN s.timeheldweaponone ELSE 0 END) AS total_timeheld_w1,
-        SUM(CASE WHEN wm.slot = 2 THEN s.timeheldweapontwo ELSE 0 END) AS total_timeheld_w2
-      FROM stats s
-      JOIN weapon_mapping wm ON s.legend_id = wm.legend_id
-      WHERE ${daysCondition}
-      GROUP BY wm.weapon_id
-    `
-
-    const aggregatedStats = (await db.query(sqlQuery)) as Record<string, number | string | null>[]
-    const weaponsResult: Record<string, number | string>[] = []
-
-    for (const row of aggregatedStats) {
-      if (!row.total_games) continue
-
-      const games = parseFloat(String(row.total_games))
-      const legends = parseFloat(String(row.total_legends))
-
-      const winrate = parseFloat(String(row.total_wins)) / games
-      const damageWeaponOne = parseFloat(String(row.total_damage_w1)) / games
-      const damageWeaponTwo = parseFloat(String(row.total_damage_w2)) / games
-      const matchTime = parseFloat(String(row.total_matchtime)) / games
-      const timeheld1 = parseFloat(String(row.total_timeheld_w1)) / games
-      const timeheld2 = parseFloat(String(row.total_timeheld_w2)) / games
-
-      const damageDealt = damageWeaponOne + damageWeaponTwo
-      const playrate = (games / legends / patchGlobalInfo.totalGames) * 100
-      const timeHeld = timeheld1 + timeheld2
-
-      const weaponData: Record<string, string | number> = {
-        weapon_id: row.weapon_id ?? '',
-        legends,
-        playrate: parseFloat(playrate.toFixed(2)),
-        winrate: parseFloat((winrate * patchGlobalInfo.winRateBalance * 100).toFixed(2)),
-        damage_dealt: parseFloat(damageDealt.toFixed(2)),
-        damage_weapon_one: parseFloat(damageWeaponOne.toFixed(2)),
-        damage_weapon_two: parseFloat(damageWeaponTwo.toFixed(2)),
-        match_time: parseFloat(matchTime.toFixed(2)),
-        timeheld: parseFloat(timeHeld.toFixed(2)),
-        timeheld1: parseFloat(timeheld1.toFixed(2)),
-        timeheld2: parseFloat(timeheld2.toFixed(2)),
+    const list = await getAllWeaponsWithStats(patch, tier)
+    const rows = list.map((w) => {
+      const s = w.stats
+      return {
+        weapon_id: w.weapon_id,
+        legends: s.legends,
+        playrate: s.playrate,
+        winrate: s.winrate,
+        damage_dealt: s.damage_dealt,
+        damage_weapon_one: s.damage_weapon_one,
+        damage_weapon_two: s.damage_weapon_two,
+        match_time: s.match_time,
+        timeheld: s.timeheld,
+        timeheld1: s.timeheld1,
+        timeheld2: s.timeheld2,
       }
-
-      weaponsResult.push(weaponData)
-    }
+    })
 
     res.status(200).json({
-      weapons: weaponsResult,
+      weapons: rows,
     })
+  })
+
+  app.get('/v1/weapon/:weapon_id', async function (req: Request, res: Response) {
+    const weaponId = req.params.weapon_id
+    const { patch, tier } = await getReqPatchAndTier(req)
+
+    const cacheKey = `weapon-detail-${tier}-${patch}-${weaponId}`
+    const cachedResponse = cache.get<Record<string, unknown>>(cacheKey)
+    if (cachedResponse !== undefined) {
+      res.status(200).json(cachedResponse)
+      return
+    }
+
+    const exists = await weaponExistsInLegends(weaponId)
+    if (!exists) {
+      res.status(404).json({
+        error: 'Weapon not found',
+      })
+      return
+    }
+
+    const [row, allCurrent] = await Promise.all([
+      getWeaponStatsRow(weaponId, patch, tier),
+      getAllWeaponsWithStats(patch, tier),
+    ])
+
+    let ranks: ReturnType<typeof computeWeaponStatRanks> | undefined
+    let previousRanks: ReturnType<typeof computeWeaponStatRanks> | undefined
+    let rankChanges: ReturnType<typeof computeRankChanges> | undefined
+    let patchHistory: Omit<Awaited<ReturnType<typeof buildWeaponPatchHistory>>, 'predecessor'> | undefined
+
+    if (row) {
+      const stats = weaponStatsRowToRankStats(row)
+      ranks = computeWeaponStatRanks(stats, allCurrent)
+
+      const built = await buildWeaponPatchHistory(weaponId, patch, tier, 10, {
+        weaponStats: stats,
+        allWeapons: allCurrent,
+      })
+
+      if (built) {
+        const { predecessor, ...series } = built
+        patchHistory = series
+
+        if (predecessor) {
+          previousRanks = computeWeaponStatRanks(predecessor.myStats, predecessor.all)
+          rankChanges = computeRankChanges(ranks, previousRanks)
+        }
+      }
+    }
+
+    const response = {
+      weapon: {
+        weapon_id: weaponId,
+        stats: row
+          ? {
+              legends: row.legends,
+              games: row.games,
+              playrate: row.playrate,
+              winrate: row.winrate,
+              damage_dealt: row.damage_dealt,
+              damage_weapon_one: row.damage_weapon_one,
+              damage_weapon_two: row.damage_weapon_two,
+              match_time: row.match_time,
+              timeheld: row.timeheld,
+              timeheld1: row.timeheld1,
+              timeheld2: row.timeheld2,
+            }
+          : undefined,
+      },
+      ranks,
+      previousRanks,
+      rankChanges,
+      patchHistory,
+    }
+
+    cache.set(cacheKey, response, 120)
+
+    res.status(200).json(response)
   })
 }

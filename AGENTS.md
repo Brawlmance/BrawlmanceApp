@@ -32,16 +32,17 @@ Root scripts: `npm run lint` and `npm run typecheck` run both packages. Husky is
 
 ### Main routes (illustrative)
 
-| Method | Path                            | Notes                                                                    |
-| ------ | ------------------------------- | ------------------------------------------------------------------------ |
-| GET    | `/v1/legends`                   | All legends with stats for `patch` + `tier`; cached ~120s                |
-| GET    | `/v1/legend/:legend_id`         | One legend, optional ranks vs field, previous patch ranks, patch history |
-| GET    | `/v1/weapons`                   | Weapon aggregates for `patch` + `tier`                                   |
-| GET    | `/v1/patches`                   | Patch list with game counts; returns `tiers` list; cached ~1h            |
-| GET    | `/v1/random_fact`               | Short stat snippet for the patch/tier window                             |
-| GET    | `/v1/ranking/legend/:legend_id` | Top players for a legend; `sort=mastery \| elo \| peak_elo`              |
-| GET    | `/v1/ranking/user/:user_id`     | Player profile, clan, legends                                            |
-| GET    | `/health`                       | Health check (see `routes/health.ts`)                                    |
+| Method | Path                            | Notes                                                                                   |
+| ------ | ------------------------------- | --------------------------------------------------------------------------------------- |
+| GET    | `/v1/legends`                   | All legends with stats for `patch` + `tier`; cached ~120s                               |
+| GET    | `/v1/legend/:legend_id`         | One legend, optional ranks vs field, previous patch ranks, patch history                |
+| GET    | `/v1/weapons`                   | Weapon aggregates for `patch` + `tier`                                                  |
+| GET    | `/v1/weapon/:weapon_id`         | One weapon: stats, ranks vs field, rank Δ vs previous patch, patch charts; cached ~120s |
+| GET    | `/v1/patches`                   | Patch list with game counts; returns `tiers` list; cached ~1h                           |
+| GET    | `/v1/random_fact`               | Short stat snippet for the patch/tier window                                            |
+| GET    | `/v1/ranking/legend/:legend_id` | Top players for a legend; `sort=mastery \| elo \| peak_elo`                             |
+| GET    | `/v1/ranking/user/:user_id`     | Player profile, clan, legends                                                           |
+| GET    | `/health`                       | Health check (see `routes/health.ts`)                                                   |
 
 ### Query parameters
 
@@ -57,7 +58,7 @@ Shared parsing: `getReqPatchAndTier` in `packages/api/src/lib/utils.ts`.
 - **Stack:** Next.js **16**, React **19**, Pages Router (`pages/`), CSS modules, Radix (`@radix-ui/*`), `cmdk`, `isomorphic-unfetch`.
 - **Port (production start):** `4400` (`next start --port 4400`).
 - **API:** `lib/api.ts` is used to call the Brawlmance API
-- **Routing / state:** Patch and tier follow the URL and global header (`usePatchAndTier`, `useUrlQueries`, `normalizeTier` in `lib/tier.ts`). Main pages include home (`/`), legends listing, weapons, rankings, search, about, health.
+- **Routing / state:** Patch and tier follow the URL and global header (`usePatchAndTier`, `useUrlQueries`, `normalizeTier` in `lib/tier.ts`). Main pages include home (`/`), legends listing, legend detail (`/legend/[id]`), weapons listing, weapon detail (`/weapon/[weapon_id]`), rankings, search, about, health.
 
 Shared UI types for legends/weapons/header live in `packages/web/types/brawlmance.ts` (some payloads still marked TODO to align exactly with API).
 

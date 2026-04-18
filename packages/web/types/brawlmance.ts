@@ -63,6 +63,32 @@ export type LegendPatchHistory = {
   averagePlayrates: number[]
 }
 
+export type WeaponDetailStats = {
+  legends: number
+  games: number
+  playrate: number
+  winrate: number
+  damage_dealt: number
+  damage_weapon_one: number
+  damage_weapon_two: number
+  match_time: number
+  timeheld: number
+  timeheld1: number
+  timeheld2: number
+}
+
+/** `GET /v1/weapon/:weapon_id` */
+export type WeaponDetailApiResponse = {
+  weapon: {
+    weapon_id: string
+    stats?: WeaponDetailStats
+  }
+  ranks?: Record<string, LegendStatRank>
+  previousRanks?: Record<string, LegendStatRank>
+  rankChanges?: Record<string, number | null>
+  patchHistory?: LegendPatchHistory | null
+}
+
 /** `GET /v1/legend/:legend_id` */
 export type LegendDetailApiResponse = {
   legend: Omit<LegendRow, 'stats'> & { stats?: LegendStats }
