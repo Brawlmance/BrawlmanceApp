@@ -2,7 +2,6 @@
 
 export default function setupGoogleAnalytics() {
   if (typeof window === 'undefined') return
-
   ;(function(i, s, o, g, r, a, m) {
     i.GoogleAnalyticsObject = r
     ;(i[r] =

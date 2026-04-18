@@ -148,7 +148,7 @@ Search.getInitialProps = async function(ctx) {
   const data = await api.get(`/v1/ranking/user/${brawlhallaID}`)
 
   return {
-    rankingUserData: data
+    rankingUserData: data,
   }
 }
 function timeDifference(current, previous) {
