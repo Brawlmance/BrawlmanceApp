@@ -8,8 +8,7 @@
   text-align: center;
 }
 
-/* :target works on full reload; .cardHighlighted mirrors it after client navigations */
-.card:target,
+/* Hash fragment highlight — useHashTargetMatch on legend + weapon cards */
 .cardHighlighted {
   background: rgba(255, 255, 255, 0.05);
 }

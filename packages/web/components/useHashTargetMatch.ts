@@ -1,10 +1,7 @@
 import { useRouter } from 'next/router'
-import { useCallback, useEffect, useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 
-function currentHashFragment(): string {
-  if (typeof window === 'undefined') return ''
-  const h = window.location.hash
-  const raw = h.startsWith('#') ? h.slice(1) : h
+function decodeFrag(raw: string): string {
   try {
     return decodeURIComponent(raw)
   } catch {
@@ -12,27 +9,22 @@ function currentHashFragment(): string {
   }
 }
 
+function urlFragment(asPath: string): string {
+  const i = asPath.indexOf('#')
+  return i < 0 ? '' : decodeFrag(asPath.slice(i + 1))
+}
+
 /**
- * True when the document URL fragment equals `id`. Updates on client navigations
- * where CSS :target does not reliably recompute (Next.js router / pushState).
+ * Whether the URL fragment equals `id`. SSR starts false; `useLayoutEffect` syncs before paint.
+ * Router events + `location.hash` cover Next client nav (pushState doesn’t fire `hashchange`).
  */
 export function useHashTargetMatch(id: string): boolean {
   const router = useRouter()
   const [matches, setMatches] = useState(false)
 
-  const sync = useCallback(() => {
-    setMatches(currentHashFragment() === id)
-  }, [id])
-
-  useEffect(() => {
-    sync()
-    router.events.on('routeChangeComplete', sync)
-    window.addEventListener('hashchange', sync)
-    return () => {
-      router.events.off('routeChangeComplete', sync)
-      window.removeEventListener('hashchange', sync)
-    }
-  }, [router.events, sync])
+  useLayoutEffect(() => {
+    setMatches(urlFragment(router.asPath) === id)
+  }, [router.asPath, id])
 
   return matches
 }

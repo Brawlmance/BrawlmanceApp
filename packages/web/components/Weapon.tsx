@@ -30,31 +30,30 @@ type WeaponProps = {
 
 export default function Weapon({ weapon, sort, setSort }: WeaponProps) {
   const urlQueries = useUrlQueries()
-  const hashMatches = useHashTargetMatch(weapon.weapon_id)
+  const cardId = String(weapon.weapon_id)
+  const hashMatches = useHashTargetMatch(cardId)
   let weaponImage: StaticImageData | undefined
   try {
     // eslint-disable-next-line import/no-commonjs
-    weaponImage = require(`../assets/img/weapons/${weapon.weapon_id}.png`) as StaticImageData
+    weaponImage = require(`../assets/img/weapons/${cardId}.png`) as StaticImageData
   } catch {
     // missing image
   }
 
   return (
-    <div
-      className={[styles.card, hashMatches ? styles.cardHighlighted : ''].filter(Boolean).join(' ')}
-      id={weapon.weapon_id}>
+    <div className={[styles.card, hashMatches ? styles.cardHighlighted : ''].filter(Boolean).join(' ')} id={cardId}>
       <p>
-        <Link href={`/weapons${urlQueries}#${weapon.weapon_id}`}>
+        <Link href={`/weapons${urlQueries}#${cardId}`}>
           {weaponImage && (
             <Image
               className={styles.weaponThumb}
               src={weaponImage}
-              alt={weaponId2Name(weapon.weapon_id)}
+              alt={weaponId2Name(cardId)}
               width={28}
               height={28}
             />
           )}
-          <b>{weaponId2Name(weapon.weapon_id)}</b>
+          <b>{weaponId2Name(cardId)}</b>
         </Link>
         <Chevron type="weapon_id" sort={sort} setSort={setSort} />
       </p>

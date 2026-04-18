@@ -26,7 +26,6 @@
   --color-stat-accent: #b7a3da;
 
   --color-muted: #777;
-  --color-border-muted: #777;
   --color-footer-text: #eee;
 
   --color-control-bg: rgba(255, 255, 255, 0.92);
@@ -36,9 +35,6 @@
   --color-highlight-bg: rgba(75, 128, 92, 0.12);
   --color-search-input-bg: rgba(0, 0, 0, 0.03);
   --color-search-input-focus-bg: rgba(75, 128, 92, 0.08);
-
-  --color-legend-positive: #3f8c3f;
-  --color-legend-negative: #d43e3e;
 
   --layout-max-width: 1024px;
   --z-index-content: 3;
