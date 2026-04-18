@@ -150,8 +150,7 @@ export default function LegendDetailPage({ data, loadError }: PageProps) {
         <div className={styles.heroText}>
           <h1>{legend.bio_name}</h1>
           <p className={styles.subtitle}>
-            Legend id {legend.legend_id}
-            {hasStats && stats ? ` · ${Math.round(stats.games).toLocaleString()} games in this patch/tier slice` : null}
+            {hasStats && stats ? `${Math.round(stats.games).toLocaleString()} games in this patch/tier slice` : null}
           </p>
         </div>
       </header>

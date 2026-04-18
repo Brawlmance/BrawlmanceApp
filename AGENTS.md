@@ -22,6 +22,7 @@ Root scripts: `npm run lint` and `npm run typecheck` run both packages. Husky is
 - **Tier** — Rank bucket for stats: `All`, `Diamond`, `Platinum`, `Gold`, or `Silver`. Default when omitted: `All`. Stored/filtered on aggregated `stats` rows (`tier` column in SQL fragments).
 - **Stats** — Per-legend aggregates from `stats`: games, wins, damage by source (unarmed, gadgets, weapon slots), time held per weapon, match time, etc. Derived fields include **playrate** (share of patch games) and **winrate** (normalized with a global **win rate balance** so the population centers sensibly).
 - **Weapon** — Weapon id aggregated across legends that wield it; weapon endpoints roll up legend `stats` by mapping each legend’s `weapon_one` / `weapon_two` to weapon ids.
+- **Weapon slots** — `weapon_one` / `weapon_two` fields exist because raw aggregates are shaped that way. They are **not** a player-facing idea for weapon-level stats: visitors care about a weapon type as a whole, not which loadout slot it came from. Do not treat slot splits as product semantics on weapon pages; they are internal data-architecture details used when rolling up legend stats into weapon totals.
 
 ## API (`packages/api`)
 

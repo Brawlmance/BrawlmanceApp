@@ -28,28 +28,10 @@ function statTableRows(stats: WeaponDetailStats) {
       rankKey: 'legends',
     },
     {
-      label: 'Games (patch slice)',
-      minor: false,
-      value: Math.round(stats.games).toLocaleString(),
-      rankKey: 'games',
-    },
-    {
       label: 'Damage dealt (per game)',
       minor: false,
       value: stats.damage_dealt.toFixed(2),
       rankKey: 'damage_dealt',
-    },
-    {
-      label: '(As weapon slot 1)',
-      minor: true,
-      value: stats.damage_weapon_one.toFixed(2),
-      rankKey: 'damage_weapon_one',
-    },
-    {
-      label: '(As weapon slot 2)',
-      minor: true,
-      value: stats.damage_weapon_two.toFixed(2),
-      rankKey: 'damage_weapon_two',
     },
     {
       label: 'Match duration (seconds)',
@@ -62,18 +44,6 @@ function statTableRows(stats: WeaponDetailStats) {
       minor: false,
       value: stats.timeheld.toFixed(2),
       rankKey: 'timeheld',
-    },
-    {
-      label: '(Slot 1)',
-      minor: true,
-      value: stats.timeheld1.toFixed(2),
-      rankKey: 'timeheld1',
-    },
-    {
-      label: '(Slot 2)',
-      minor: true,
-      value: stats.timeheld2.toFixed(2),
-      rankKey: 'timeheld2',
     },
   ]
 }
@@ -156,8 +126,7 @@ export default function WeaponDetailPage({ data, loadError }: PageProps) {
         <div className={styles.heroText}>
           <h1>{displayName}</h1>
           <p className={styles.subtitle}>
-            Weapon id {weapon.weapon_id}
-            {hasStats && stats ? ` · ${Math.round(stats.games).toLocaleString()} games in this patch/tier slice` : null}
+            {hasStats && stats ? `${Math.round(stats.games).toLocaleString()} games in this patch/tier slice` : null}
           </p>
         </div>
       </header>
@@ -174,8 +143,6 @@ export default function WeaponDetailPage({ data, loadError }: PageProps) {
             <h2 className={styles.sectionTitle}>Weapon statistics</h2>
             <p className={styles.muted}>
               Values are per your selected patch and tier. Ranks compare this weapon to every other weapon with data.
-              Damage and time-held splits reflect use as weapon slot 1 vs slot 2 across all legends that wield this
-              weapon.
             </p>
             <div className={styles.tableWrap}>
               <table className={styles.statsTable}>
