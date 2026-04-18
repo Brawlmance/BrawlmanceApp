@@ -5,6 +5,8 @@ import { getReqPatchAndTier } from '../lib/utils'
 import cache from '../lib/cache'
 
 // TODO: model `legends` table row + joined stats
+// DB column uses snake_case
+// eslint-disable-next-line camelcase
 type LegendRow = Record<string, unknown> & { legend_id: number; stats?: Record<string, number> | null }
 
 export default function legendsRoutes(app: Express): void {
@@ -20,14 +22,14 @@ export default function legendsRoutes(app: Express): void {
 
     const legends = (await db.query('SELECT * FROM legends ORDER BY bio_name')) as LegendRow[]
 
-    const legendData = await Promise.all(legends.map(legend => getLegendStats(legend.legend_id, patch, tier)))
+    const legendData = await Promise.all(legends.map((legend) => getLegendStats(legend.legend_id, patch, tier)))
 
     const legendsResult = legends
       .map((legend, index) => {
         legend.stats = legendData[index] ?? null
         return legend
       })
-      .filter(legend => legend.stats)
+      .filter((legend) => legend.stats)
     const response = {
       legends: legendsResult,
     }

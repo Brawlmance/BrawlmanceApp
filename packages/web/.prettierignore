@@ -1,0 +1,4 @@
+.next
+node_modules
+out
+assets/css/normalize.min.css

@@ -1,22 +1,34 @@
 module.exports = {
   env: {
     es6: true,
-    node: true
+    node: true,
   },
-  extends: [
-    'standard',
-    'plugin:prettier/recommended'
-  ],
+  extends: ['standard', 'prettier'],
   globals: {
     Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly'
+    SharedArrayBuffer: 'readonly',
   },
   parserOptions: {
     ecmaVersion: 2018,
-    sourceType: 'module'
+    sourceType: 'module',
   },
   rules: {
-    'prettier/prettier': ['error', { 'semi': false }],
-    'no-return-await': 'off'
-  }
+    'no-return-await': 'off',
+  },
+  overrides: [
+    {
+      files: ['**/*.ts'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        ecmaVersion: 2018,
+        sourceType: 'module',
+      },
+      plugins: ['@typescript-eslint'],
+      rules: {
+        'no-unused-vars': 'off',
+        '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+        camelcase: ['error', { properties: 'never' }],
+      },
+    },
+  ],
 }

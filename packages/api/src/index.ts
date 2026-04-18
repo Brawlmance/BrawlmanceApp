@@ -34,7 +34,7 @@ app.all('*', function (req: Request, res: Response) {
 })
 
 app.use(errorHandler)
-function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
+function errorHandler(err: Error, req: Request, res: Response, _next: NextFunction) {
   console.error(err.stack)
   res.status(500).json({ error: 'Error 500: Internal server error' })
 }

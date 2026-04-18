@@ -38,7 +38,9 @@ export async function getPatchDaysCondition(patch: string, tier: string): Promis
   return result
 }
 
-export async function getPatchGlobalInfo(daysCondition: string): Promise<{ winRateBalance: number; totalGames: number }> {
+export async function getPatchGlobalInfo(
+  daysCondition: string
+): Promise<{ winRateBalance: number; totalGames: number }> {
   const cacheKey = `getPatchGlobalInfo:${daysCondition}`
   const cachedResult = cache.get<{ winRateBalance: number; totalGames: number }>(cacheKey)
   if (cachedResult !== undefined) return cachedResult

@@ -45,11 +45,11 @@ export default function Index({ legends }: IndexProps) {
   return (
     <div>
       <h1>Most played legends</h1>
-      {mostPlayedLegends.map(legend => {
+      {mostPlayedLegends.map((legend) => {
         return <Legend key={legend.legend_id} legend={legend} sort={sortPlayrate} setSort={setSortPlayrate} />
       })}
       <h1>Highest winrate legends</h1>
-      {highestWinrateLegends.map(legend => {
+      {highestWinrateLegends.map((legend) => {
         return <Legend key={legend.legend_id} legend={legend} sort={sortWinrate} setSort={setSortWinrate} />
       })}
       <h1>Most OP legends</h1>
@@ -59,7 +59,9 @@ export default function Index({ legends }: IndexProps) {
 }
 
 Index.getInitialProps = async function (ctx: NextPageContext) {
-  const data = (await api.get(`/v1/legends?patch=${ctx.query.patch}&tier=${ctx.query.tier}`)) as { legends?: LegendRow[] }
+  const data = (await api.get(`/v1/legends?patch=${ctx.query.patch}&tier=${ctx.query.tier}`)) as {
+    legends?: LegendRow[]
+  }
 
   return {
     legends: data.legends || [],

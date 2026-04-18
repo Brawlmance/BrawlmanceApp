@@ -20,7 +20,7 @@ function weaponsToCsvRows(weapons: WeaponRow[]): (string | number)[][] {
     'timeheld1',
     'timeheld2',
   ]
-  const rows = weapons.map(w => [
+  const rows = weapons.map((w) => [
     w.weapon_id,
     w.legends,
     w.playrate,
@@ -54,7 +54,7 @@ export default function Weapons({ weapons }: WeaponsProps) {
 
   return (
     <div>
-      {sortedWeapons.map(weapon => {
+      {sortedWeapons.map((weapon) => {
         return <Weapon key={weapon.weapon_id} weapon={weapon} sort={sort} setSort={setSort} />
       })}
 
@@ -75,7 +75,9 @@ export default function Weapons({ weapons }: WeaponsProps) {
 }
 
 Weapons.getInitialProps = async function (ctx: NextPageContext) {
-  const data = (await api.get(`/v1/weapons?patch=${ctx.query.patch}&tier=${ctx.query.tier}`)) as { weapons?: WeaponRow[] }
+  const data = (await api.get(`/v1/weapons?patch=${ctx.query.patch}&tier=${ctx.query.tier}`)) as {
+    weapons?: WeaponRow[]
+  }
 
   return {
     weapons: data.weapons || [],

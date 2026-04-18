@@ -31,7 +31,7 @@ function legendsToCsvRows(legends: LegendRow[]): (string | number)[][] {
     'matchtime_weaponone',
     'matchtime_weapontwo',
   ]
-  const rows = legends.map(l => {
+  const rows = legends.map((l) => {
     const s = l.stats
     return [
       l.legend_id,
@@ -74,12 +74,14 @@ export default function Legends({ legends }: LegendsProps) {
     const smaller = sort.order === 'up' ? -1 : 1
 
     if (sort.by === 'bio_name') return a[sort.by] > b[sort.by] ? bigger : smaller
-    return a.stats[sort.by as keyof LegendRow['stats']] > b.stats[sort.by as keyof LegendRow['stats']] ? bigger : smaller
+    return a.stats[sort.by as keyof LegendRow['stats']] > b.stats[sort.by as keyof LegendRow['stats']]
+      ? bigger
+      : smaller
   })
 
   return (
     <div>
-      {sortedLegends.map(legend => {
+      {sortedLegends.map((legend) => {
         return <Legend key={legend.legend_id} legend={legend} sort={sort} setSort={setSort} />
       })}
 
@@ -100,7 +102,9 @@ export default function Legends({ legends }: LegendsProps) {
 }
 
 Legends.getInitialProps = async function (ctx: NextPageContext) {
-  const data = (await api.get(`/v1/legends?patch=${ctx.query.patch}&tier=${ctx.query.tier}`)) as { legends?: LegendRow[] }
+  const data = (await api.get(`/v1/legends?patch=${ctx.query.patch}&tier=${ctx.query.tier}`)) as {
+    legends?: LegendRow[]
+  }
 
   return {
     legends: data.legends || [],

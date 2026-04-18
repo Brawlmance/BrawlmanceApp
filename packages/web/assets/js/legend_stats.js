@@ -11,7 +11,7 @@ function generateRadarChart(canvasElm, data) {
       tooltips: {
         enabled: true,
         callbacks: {
-          label: function(tooltipItem, data) {
+          label: function (tooltipItem, data) {
             return (
               data.datasets[tooltipItem.datasetIndex].label +
               ' : ' +

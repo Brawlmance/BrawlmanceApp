@@ -20,7 +20,7 @@ export default function patchesRoutes(app: Express): void {
     }[]
 
     patches = await Promise.all(
-      patches.map(async patch => {
+      patches.map(async (patch) => {
         const daysCondition = await getPatchDaysCondition(patch.id, tier)
         const countRows = (await db.query(`SELECT SUM(games) as count
                                                      FROM stats

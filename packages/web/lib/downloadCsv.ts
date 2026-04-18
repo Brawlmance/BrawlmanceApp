@@ -25,7 +25,7 @@ function escapeCsvCell(val: unknown): string {
 /** @param rows First row is headers */
 export function downloadCsv(filename: string, rows: (string | number)[][]): void {
   if (typeof window === 'undefined') return
-  const content = rows.map(row => row.map(escapeCsvCell).join(',')).join('\n')
+  const content = rows.map((row) => row.map(escapeCsvCell).join(',')).join('\n')
   const blob = new Blob(['\ufeff' + content], { type: 'text/csv;charset=utf-8;' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')

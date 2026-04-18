@@ -6,7 +6,7 @@ const API_URL = typeof window !== 'undefined' ? env.NEXT_PUBLIC_API_URL_FOR_CLIE
 const api = {
   // TODO: narrow JSON response types per endpoint
   get(path: string): Promise<unknown> {
-    return fetch(`${API_URL}${path}`).then(res => res.json())
+    return fetch(`${API_URL}${path}`).then((res) => res.json())
   },
 }
 

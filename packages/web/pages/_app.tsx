@@ -78,12 +78,12 @@ function Header({ headerData }: { headerData: HeaderData }) {
   const patchStr = Array.isArray(patch) ? patch[0] : patch
   if (!patchStr) totalGamesThisPatch = patches[0].games
   else {
-    const p = patches.find(p => p.id === patchStr)
+    const p = patches.find((p) => p.id === patchStr)
     if (p) totalGamesThisPatch = p.games
   }
 
   const patchValue = patchStr ?? ''
-  const tierValue = Array.isArray(tier) ? tier[0] : tier ?? ''
+  const tierValue = Array.isArray(tier) ? tier[0] : (tier ?? '')
 
   return (
     <>
@@ -113,8 +113,8 @@ function Header({ headerData }: { headerData: HeaderData }) {
           <form method="GET" style={{ display: 'inline' }} id="patchform">
             <label>
               Patch{' '}
-              <select name="patch" value={patchValue} onChange={e => changePatch(e.target.value)}>
-                {patches.map(p => {
+              <select name="patch" value={patchValue} onChange={(e) => changePatch(e.target.value)}>
+                {patches.map((p) => {
                   return <option key={p.id}>{p.id}</option>
                 })}
               </select>
@@ -124,8 +124,8 @@ function Header({ headerData }: { headerData: HeaderData }) {
           <form method="GET" style={{ display: 'inline' }} id="tierform">
             <input type="hidden" name="patch" value="<?=$patchid?>" />
             <label>
-              <select name="tier" value={tierValue} onChange={e => changeTier(e.target.value)}>
-                {tiers.map(tiername => {
+              <select name="tier" value={tierValue} onChange={(e) => changeTier(e.target.value)}>
+                {tiers.map((tiername) => {
                   return <option key={tiername}>{tiername}</option>
                 })}
               </select>

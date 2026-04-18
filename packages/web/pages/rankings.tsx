@@ -48,7 +48,7 @@ export default function Rankings({ legends, players }: RankingsProps) {
     <>
       <div id="rankingform">
         <select value={legendValue} onChange={newLegend}>
-          {legends.map(legend => {
+          {legends.map((legend) => {
             return (
               <option key={legend.legend_id} value={legend.legend_id}>
                 {legend.bio_name}
@@ -99,15 +99,7 @@ Rankings.getInitialProps = async function (ctx: NextPageContext) {
   }
 }
 
-function Player({
-  player,
-  rank,
-  sort,
-}: {
-  player: RankingsPlayerRow
-  sort: string
-  rank: number
-}) {
+function Player({ player, rank, sort }: { player: RankingsPlayerRow; sort: string; rank: number }) {
   const urlQueries = useUrlQueries({
     brawlhalla_id: player.brawlhalla_id,
   })

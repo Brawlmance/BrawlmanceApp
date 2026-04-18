@@ -1,0 +1,12 @@
+{
+  "name": "brawlmance-app",
+  "private": true,
+  "scripts": {
+    "prepare": "husky",
+    "lint": "npm run lint --prefix packages/web && npm run lint --prefix packages/api",
+    "typecheck": "npm run typecheck --prefix packages/web && npm run typecheck --prefix packages/api"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
+}

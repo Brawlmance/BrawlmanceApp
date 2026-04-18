@@ -21,7 +21,7 @@ export default function Search({ rankingUserData }: SearchProps) {
   let overallTotalGames = 0
   let overallDamageDealt = 0
   let overallDamageTaken = 0
-  legends.forEach(legend => {
+  legends.forEach((legend) => {
     overallTotalGames += legend.games
     overallDamageDealt += legend.damagedealt
     overallDamageTaken += legend.damagetaken
