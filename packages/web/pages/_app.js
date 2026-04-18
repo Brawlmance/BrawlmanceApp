@@ -20,14 +20,15 @@ import logo from '../assets/img/logo.png'
 setupGoogleAnalytics()
 
 const bgs = [bg1, bg2, bg3]
-const randomBG = bgs[Math.floor(Date.now() / 60000) % 3].src
 
 MyApp.propTypes = {
   Component: PropTypes.func.isRequired,
   pageProps: PropTypes.object.isRequired,
   headerData: PropTypes.object.isRequired,
+  bgIndex: PropTypes.number,
 }
-export default function MyApp({ Component, pageProps, headerData }) {
+export default function MyApp({ Component, pageProps, headerData, bgIndex = 0 }) {
+  const randomBG = bgs[bgIndex % bgs.length].src
   return (
     <>
       <Head>
@@ -63,7 +64,9 @@ MyApp.getInitialProps = async ctx => {
     cache.set(headerDataKey, headerData)
   }
 
-  return { ...appProps, headerData }
+  const bgIndex = Math.floor(Math.random() * bgs.length)
+
+  return { ...appProps, headerData, bgIndex }
 }
 
 Header.propTypes = {
