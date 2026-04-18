@@ -7,8 +7,9 @@ Legends.propTypes = {
   legends: PropTypes.array,
 }
 export default function Legends({ legends }) {
-  if (!legends) return null
   const [sort, setSort] = useState({ by: 'playrate', order: 'down' })
+
+  if (!legends) return null
 
   const sortedLegends = legends.sort((a, b) => {
     const bigger = sort.order === 'up' ? 1 : -1

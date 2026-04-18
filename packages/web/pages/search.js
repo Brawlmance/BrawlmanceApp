@@ -7,6 +7,10 @@ Search.propTypes = {
   rankingUserData: PropTypes.object,
 }
 export default function Search({ rankingUserData }) {
+  const urlQueries = useUrlQueries({
+    brawlhalla_id: rankingUserData?.player?.brawlhalla_id,
+  })
+
   if (rankingUserData.error) return <div>{rankingUserData.error}</div>
   const { player, clan, legends } = rankingUserData
   if (legends.length === 0) return <div>No data for {player.name}</div>
@@ -21,25 +25,17 @@ export default function Search({ rankingUserData }) {
   })
 
   const agoStr = timeDifference(Date.now(), player.lastupdated * 1000)
-
-  const urlQueries = useUrlQueries({
-    brawlhalla_id: player.brawlhalla_id,
-  })
   return (
     <>
       <div className="profile-header">
         <div className="name">
           <Link href={`/search${urlQueries}`}>
-            <a>
-              <img className="avatar" alt="" src={`/img/legends/${legends[0].legend_id}.png`} />
-            </a>
+            <img className="avatar" alt="" src={`/img/legends/${legends[0].legend_id}.png`} />
           </Link>
           <Link href={`/search${urlQueries}`}>
-            <a>
-              <h1>
-                {player.name} ({player.region})
-              </h1>
-            </a>
+            <h1>
+              {player.name} ({player.region})
+            </h1>
           </Link>
           {clan && <p>{clan.clan_name}</p>}
           <p>Updated {agoStr}</p>

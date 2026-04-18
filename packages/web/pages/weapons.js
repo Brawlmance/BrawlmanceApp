@@ -7,8 +7,9 @@ Weapons.propTypes = {
   weapons: PropTypes.array,
 }
 export default function Weapons({ weapons }) {
-  if (!weapons) return null
   const [sort, setSort] = useState({ by: 'playrate', order: 'down' })
+
+  if (!weapons) return null
 
   const sortedWeapons = weapons.sort((a, b) => {
     const bigger = sort.order === 'up' ? 1 : -1

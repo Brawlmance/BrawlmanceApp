@@ -16,7 +16,6 @@ class MyDocument extends Document {
             name="description"
             content="Brawlmance provides Brawlhalla Statistics for legend winrates, weapon winrates, leaderboards, and more"
           />
-          <meta key="viewport" name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-icon-57x57.png" />
           <link rel="apple-touch-icon" sizes="60x60" href="/favicons/apple-icon-60x60.png" />
           <link rel="apple-touch-icon" sizes="72x72" href="/favicons/apple-icon-72x72.png" />
@@ -32,7 +31,7 @@ class MyDocument extends Document {
           <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png" />
           <link rel="manifest" href="/manifest.json" />
           <meta name="theme-color" content="#FD9700" />
-          <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" />
+          <link href="https://fonts.googleapis.com/css?family=Lato&display=optional" rel="stylesheet" />
         </Head>
         <body>
           <Main />

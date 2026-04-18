@@ -33,9 +33,7 @@ export default function Legend({ legend, sort, setSort }) {
       <img alt="" src={`/img/legends/${legend.legend_id}.png`} />
       <p>
         <Link href={`/legends${urlQueries}#${legendName2divId(legend)}`}>
-          <a>
-            <b>{legend.bio_name}</b>
-          </a>
+          <b>{legend.bio_name}</b>
         </Link>{' '}
         <Chevron type="bio_name" sort={sort} setSort={setSort} />
       </p>

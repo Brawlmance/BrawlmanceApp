@@ -92,9 +92,7 @@ function Player({ player, rank, sort }) {
     <tr>
       <td>{ordinalSuffixOf(rank)}</td>
       <td>
-        <Link href={`/search${urlQueries}`}>
-          <a>{player.name}</a>
-        </Link>
+        <Link href={`/search${urlQueries}`}>{player.name}</Link>
         <p className="region">{player.region}</p>
       </td>
       <td>

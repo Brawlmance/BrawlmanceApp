@@ -30,9 +30,7 @@ export default function Weapon({ weapon, sort, setSort }) {
       <img alt="" src={`/img/weapons/${weapon.weapon_id}.png`} />
       <p>
         <Link href={`/weapons${urlQueries}#${weapon.weapon_id}`}>
-          <a>
-            <b>{weaponId2Name(weapon.weapon_id)}</b>
-          </a>
+          <b>{weaponId2Name(weapon.weapon_id)}</b>
         </Link>
         <Chevron type="weapon_id" sort={sort} setSort={setSort} />
       </p>

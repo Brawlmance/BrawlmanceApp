@@ -12,14 +12,15 @@ import usePatchAndTier, { changePatch, changeTier } from '../components/usePatch
 import api from '../lib/api'
 import useUrlQueries from '../lib/useUrlQueries'
 import cache from '../lib/cache'
+import bg1 from '../assets/img/bg/bg1.jpg'
+import bg2 from '../assets/img/bg/bg2.jpg'
+import bg3 from '../assets/img/bg/bg3.jpg'
+import logo from '../assets/img/logo.png'
 
 setupGoogleAnalytics()
 
-const randomBG = [
-  require('../assets/img/bg/bg1.jpg'),
-  require('../assets/img/bg/bg2.jpg'),
-  require('../assets/img/bg/bg3.jpg'),
-][Math.floor(Date.now() / 60000) % 3]
+const bgs = [bg1, bg2, bg3]
+const randomBG = bgs[Math.floor(Date.now() / 60000) % 3].src
 
 MyApp.propTypes = {
   Component: PropTypes.func.isRequired,
@@ -31,6 +32,7 @@ export default function MyApp({ Component, pageProps, headerData }) {
     <>
       <Head>
         <title>Brawlmance - Brawlhalla Statistics</title>
+        <meta key="viewport" name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <div className="container" id="main">
         <Header headerData={headerData} />
@@ -83,30 +85,20 @@ function Header({ headerData }) {
           <ul>
             <li id="brawlmance">
               <Link href={`/${urlQueries}`}>
-                <a>
-                  <img src={require('../assets/img/logo.png')} alt="Logo" /> BRAWLMANCE
-                </a>
+                <img src={logo.src} width={logo.width} height={logo.height} alt="Logo" /> BRAWLMANCE
               </Link>
             </li>
             <li>
-              <Link href={`/legends${urlQueries}`}>
-                <a>LEGENDS</a>
-              </Link>
+              <Link href={`/legends${urlQueries}`}>LEGENDS</Link>
             </li>
             <li>
-              <Link href={`/weapons${urlQueries}`}>
-                <a>WEAPONS</a>
-              </Link>
+              <Link href={`/weapons${urlQueries}`}>WEAPONS</Link>
             </li>
             <li>
-              <Link href={`/rankings${urlQueries}`}>
-                <a>RANKINGS</a>
-              </Link>
+              <Link href={`/rankings${urlQueries}`}>RANKINGS</Link>
             </li>
             <li>
-              <Link href={`/about${urlQueries}`}>
-                <a>ABOUT</a>
-              </Link>
+              <Link href={`/about${urlQueries}`}>ABOUT</Link>
             </li>
           </ul>
         </div>

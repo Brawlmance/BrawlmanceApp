@@ -1,9 +1,12 @@
 import fetch from 'isomorphic-unfetch'
+import { env } from './env'
 
-const API_URL = process.browser ? 'https://brawlmance.com/api' : 'http://localhost:4401'
+const API_URL = typeof window !== 'undefined' ? env.NEXT_PUBLIC_API_URL_FOR_CLIENT : env.API_URL_FOR_SSR
 
-export default {
+const api = {
   get: function get(path) {
     return fetch(`${API_URL}${path}`).then(res => res.json())
   },
 }
+
+export default api

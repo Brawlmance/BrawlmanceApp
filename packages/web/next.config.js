@@ -1,5 +1,4 @@
-// next.config.js
-const withImages = require('next-images')
-module.exports = {
-  ...withImages(),
-}
+/** @type {import('next').NextConfig} */
+const nextConfig = {}
+
+module.exports = nextConfig
