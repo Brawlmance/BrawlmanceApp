@@ -7,31 +7,15 @@ import type { SortState, WeaponRow } from '../types/brawlmance'
 import type { NextPageContext } from 'next'
 
 function weaponsToCsvRows(weapons: WeaponRow[]): (string | number)[][] {
-  const headers = [
-    'weapon_id',
-    'legends',
-    'playrate',
-    'winrate',
-    'damage_dealt',
-    'damage_weapon_one',
-    'damage_weapon_two',
-    'match_time',
-    'timeheld',
-    'timeheld1',
-    'timeheld2',
-  ]
+  const headers = ['weapon_id', 'legends', 'playrate', 'winrate', 'damage_dealt', 'match_time', 'timeheld']
   const rows = weapons.map((w) => [
     w.weapon_id,
     w.legends,
     w.playrate,
     w.winrate,
     w.damage_dealt,
-    w.damage_weapon_one,
-    w.damage_weapon_two,
     w.match_time,
     w.timeheld,
-    w.timeheld1,
-    w.timeheld2,
   ])
   return [headers, ...rows]
 }
