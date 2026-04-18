@@ -1,4 +1,3 @@
-/* eslint-disable -- legacy analytics.js bootstrap; not worth strict typing */
 export default function setupGoogleAnalytics(): void {
   if (typeof window === 'undefined') return
   ;(function (

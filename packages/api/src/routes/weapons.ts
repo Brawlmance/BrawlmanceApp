@@ -53,7 +53,7 @@ export default function weaponsRoutes(app: Express): void {
 
       const weaponData: Record<string, string | number> = {
         weapon_id: row.weapon_id ?? '',
-        legends: legends,
+        legends,
         playrate: parseFloat(playrate.toFixed(2)),
         winrate: parseFloat((winrate * patchGlobalInfo.winRateBalance * 100).toFixed(2)),
         damage_dealt: parseFloat(damageDealt.toFixed(2)),

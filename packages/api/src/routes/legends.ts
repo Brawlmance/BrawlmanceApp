@@ -6,7 +6,6 @@ import cache from '../lib/cache'
 
 // TODO: model `legends` table row + joined stats
 // DB column uses snake_case
-// eslint-disable-next-line camelcase
 type LegendRow = Record<string, unknown> & { legend_id: number; stats?: Record<string, number> | null }
 
 export default function legendsRoutes(app: Express): void {

@@ -34,7 +34,6 @@ export default function Weapon({ weapon, sort, setSort }: WeaponProps) {
   const hashMatches = useHashTargetMatch(cardId)
   let weaponImage: StaticImageData | undefined
   try {
-    // eslint-disable-next-line import/no-commonjs
     weaponImage = require(`../assets/img/weapons/${cardId}.png`) as StaticImageData
   } catch {
     // missing image

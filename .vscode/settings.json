@@ -4,7 +4,12 @@
     "**/node_modules/*/**": true
   },
   "svelte.plugin.typescript.enable": false,
-  "eslint.validate": ["javascript", "svelte"],
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },

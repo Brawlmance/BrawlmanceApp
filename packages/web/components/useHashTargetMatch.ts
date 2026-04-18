@@ -24,7 +24,7 @@ export function useHashTargetMatch(id: string): boolean {
 
   useLayoutEffect(() => {
     setMatches(urlFragment(router.asPath) === id)
-  }, [router.asPath, id])
+  }, [id, router.asPath])
 
   return matches
 }

@@ -1,11 +1,10 @@
 {
   "name": "brawlmance-web",
-  "main": ".eslintrc.js",
   "scripts": {
     "dev": "next",
     "build": "NODE_ENV=production next build",
     "start": "NODE_ENV=production next start --port 4400",
-    "lint": "next lint && prettier --check .",
+    "lint": "eslint . && prettier --check .",
     "typecheck": "tsc --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,13 +19,15 @@
     "sharp": "^0.34.5"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.5",
+    "@eslint/js": "^9.39.4",
     "@types/node": "25.6.0",
     "@types/react": "19.2.14",
     "@types/react-dom": "^19.0.0",
     "@typescript-eslint/parser": "^8.18.0",
-    "eslint": "^8.57.1",
+    "eslint": "^9.39.4",
     "eslint-config-next": "^15.5.15",
-    "eslint-config-prettier": "^6.10.0",
+    "eslint-config-prettier": "^10.1.8",
     "prettier": "^3.4.2",
     "typescript": "^5.7.2"
   }
