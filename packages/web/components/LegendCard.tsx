@@ -1,7 +1,6 @@
 import Chevron from './Chevron'
 import Link from 'next/link'
 import LegendImage from './LegendImage'
-import { legendCardDomId } from '../lib/legendAnchor'
 import useUrlQueries from '../lib/useUrlQueries'
 import { weaponId2Name } from '../lib/weaponNames'
 import { useLegendImage } from './useLegendImage'
@@ -18,7 +17,7 @@ type LegendProps = {
 export default function LegendCard({ legend, sort, setSort }: LegendProps) {
   const urlQueries = useUrlQueries()
   const legendImage = useLegendImage(legend)
-  const cardId = legendCardDomId(legend)
+  const cardId = encodeURIComponent(legend.legend_name_key)
   const hashMatches = useHashTargetMatch(cardId)
 
   return (

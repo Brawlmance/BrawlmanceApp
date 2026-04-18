@@ -1,17 +1,9 @@
 import { useRouter } from 'next/router'
 import { useLayoutEffect, useState } from 'react'
 
-function decodeFrag(raw: string): string {
-  try {
-    return decodeURIComponent(raw)
-  } catch {
-    return raw
-  }
-}
-
 function urlFragment(asPath: string): string {
   const i = asPath.indexOf('#')
-  return i < 0 ? '' : decodeFrag(asPath.slice(i + 1))
+  return i < 0 ? '' : asPath.slice(i + 1)
 }
 
 /**

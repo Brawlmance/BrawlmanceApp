@@ -5,7 +5,6 @@ import type { NextPageContext } from 'next'
 import LegendImage from '../../components/LegendImage'
 import useUrlQueries from '../../lib/useUrlQueries'
 import api from '../../lib/api'
-import { legendsHrefWithCard } from '../../lib/legendAnchor'
 import { weaponId2Name } from '../../lib/weaponNames'
 import type { LegendDetailApiResponse, LegendStats } from '../../types/brawlmance'
 import styles from './LegendDetailPage.module.css'
@@ -137,19 +136,19 @@ export default function LegendDetailPage({ data, loadError }: PageProps) {
   return (
     <div className={styles.page}>
       <Head>
-        <title>{String(legend.bio_name)} — Brawlmance</title>
+        <title>{legend.bio_name} — Brawlmance</title>
       </Head>
 
       <nav className={styles.backRow} aria-label="Breadcrumb">
-        <Link href={legendsHrefWithCard(urlQueries, legend)} className={styles.backLink}>
+        <Link href={`/legends${urlQueries}#${encodeURIComponent(legend.legend_name_key)}`} className={styles.backLink}>
           ← Legends overview
         </Link>
       </nav>
 
       <header className={styles.hero}>
-        <LegendImage legend={{ legend_name_key: String(legend.legend_name_key), bio_name: String(legend.bio_name) }} />
+        <LegendImage legend={legend} />
         <div className={styles.heroText}>
-          <h1>{String(legend.bio_name)}</h1>
+          <h1>{legend.bio_name}</h1>
           <p className={styles.subtitle}>
             Legend id {legend.legend_id}
             {hasStats && stats ? ` · ${Math.round(stats.games).toLocaleString()} games in this patch/tier slice` : null}
