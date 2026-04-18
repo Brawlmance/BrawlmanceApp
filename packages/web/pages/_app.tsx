@@ -6,9 +6,10 @@ import Head from 'next/head'
 
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import App, { type AppContext, type AppProps } from 'next/app'
 import setupGoogleAnalytics from '../lib/google_analytics'
+import { RouteLoadingIndicator, useRouteTransitionLoading } from '../components/RouteTransitionLoading'
 import usePatchAndTier, { changePatch, changeTier } from '../components/usePatchAndTier'
 import api from '../lib/api'
 import { normalizeTier } from '../lib/tier'
@@ -27,6 +28,8 @@ const bgs = [bg1, bg2, bg3]
 type AppOwnProps = { headerData: HeaderData; bgIndex: number }
 
 export default function MyApp({ Component, pageProps, headerData, bgIndex = 0 }: AppProps & AppOwnProps) {
+  const routeLoading = useRouteTransitionLoading()
+
   const randomBG = bgs[bgIndex % bgs.length].src
   return (
     <>
@@ -35,9 +38,9 @@ export default function MyApp({ Component, pageProps, headerData, bgIndex = 0 }:
         <meta key="viewport" name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <div className="container" id="main">
-        <Header headerData={headerData} />
-        <div id="content">
-          <Component {...pageProps} />
+        <Header headerData={headerData} routeLoading={routeLoading} />
+        <div id="content" aria-busy={routeLoading}>
+          {routeLoading ? <RouteLoadingIndicator /> : <Component {...pageProps} />}
         </div>
         <footer>
           <p>Backgrounds of stages, legend portraits, and stat icons by Blue Mammoth Games</p>
@@ -72,23 +75,38 @@ MyApp.getInitialProps = async (appContext: AppContext) => {
   return { ...appProps, headerData, bgIndex }
 }
 
-function Header({ headerData: headerDataFromApp }: { headerData: HeaderData }) {
+function Header({ headerData: headerDataFromApp, routeLoading }: { headerData: HeaderData; routeLoading: boolean }) {
   const router = useRouter()
   const { patch, tier } = usePatchAndTier()
   const [headerData, setHeaderData] = useState<HeaderData>(headerDataFromApp)
+  const [patchesFetchPending, setPatchesFetchPending] = useState(false)
+  const prevTierRef = useRef<string | null>(null)
 
   const tierNormalized = normalizeTier(router.query.tier)
 
   useEffect(() => {
     if (!router.isReady) return
+    const tierChanged = prevTierRef.current !== null && prevTierRef.current !== tierNormalized
+    prevTierRef.current = tierNormalized
+    if (tierChanged) setPatchesFetchPending(true)
     let cancelled = false
-    api.get(`/v1/patches?tier=${encodeURIComponent(tierNormalized)}`).then((data) => {
-      if (!cancelled) setHeaderData(data as HeaderData)
-    })
+    api
+      .get(`/v1/patches?tier=${encodeURIComponent(tierNormalized)}`)
+      .then((data) => {
+        if (!cancelled) {
+          setHeaderData(data as HeaderData)
+          setPatchesFetchPending(false)
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setPatchesFetchPending(false)
+      })
     return () => {
       cancelled = true
     }
   }, [router.isReady, tierNormalized])
+
+  const headerStatsLoading = routeLoading || patchesFetchPending
 
   const urlQueries = useUrlQueries()
   const patches = headerData.patches
@@ -129,31 +147,34 @@ function Header({ headerData: headerDataFromApp }: { headerData: HeaderData }) {
           </ul>
         </div>
         <div id="aggregationstatus">
-          <form method="GET" style={{ display: 'inline' }} id="patchform">
-            <label>
-              Patch{' '}
-              <select name="patch" value={patchValue} onChange={(e) => changePatch(e.target.value)}>
-                {patches.map((p) => {
-                  return <option key={p.id}>{p.id}</option>
-                })}
-              </select>
-            </label>
-            <input type="hidden" name="tier" value={tierValue} />
-          </form>
-          <form method="GET" style={{ display: 'inline' }} id="tierform">
-            <input type="hidden" name="patch" value={patchValue} />
-            <label>
-              <select name="tier" value={tierValue} onChange={(e) => changeTier(e.target.value)}>
-                {tiers.map((tiername) => {
-                  return <option key={tiername}>{tiername}</option>
-                })}
-              </select>
-            </label>
-          </form>
-          <span id="n_analyzed">Games analyzed: {totalGamesThisPatch.toLocaleString()}</span>
+          <label>
+            Patch{' '}
+            <select name="patch" value={patchValue} onChange={(e) => changePatch(e.target.value)}>
+              {patches.map((p) => {
+                return <option key={p.id}>{p.id}</option>
+              })}
+            </select>
+          </label>
+
+          <label>
+            <select name="tier" value={tierValue} onChange={(e) => changeTier(e.target.value)}>
+              {tiers.map((tiername) => {
+                return <option key={tiername}>{tiername}</option>
+              })}
+            </select>
+          </label>
+
+          <span id="n_analyzed">
+            Games analyzed:{' '}
+            {headerStatsLoading ? (
+              <span className="loading-placeholder">Loading&hellip;</span>
+            ) : (
+              totalGamesThisPatch.toLocaleString()
+            )}
+          </span>
         </div>
       </header>
-      {totalGamesThisPatch < 200000 && (
+      {!headerStatsLoading && totalGamesThisPatch < 200000 && (
         <div className="header_warning">
           <p>WARNING: We don&apos;t have enough data yet</p>
         </div>
