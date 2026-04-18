@@ -2,3 +2,4 @@
 node_modules
 out
 assets/css/normalize.min.css
+next-env.d.ts

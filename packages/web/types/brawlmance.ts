@@ -52,3 +52,28 @@ export type HeaderData = {
   patches: { id: string; games: number }[]
   tiers: string[]
 }
+
+export type LegendStatRank = { rank: number; total: number }
+
+export type LegendPatchHistory = {
+  patchIds: string[]
+  legendWinrates: number[]
+  legendPlayrates: number[]
+  averageWinrates: number[]
+  averagePlayrates: number[]
+}
+
+/** `GET /v1/legend/:legend_id` */
+export type LegendDetailApiResponse = {
+  legend: Omit<LegendRow, 'stats'> & { stats?: LegendStats }
+  averageStats: {
+    strength: number
+    dexterity: number
+    defense: number
+    speed: number
+  }
+  ranks?: Record<string, LegendStatRank>
+  previousRanks?: Record<string, LegendStatRank>
+  rankChanges?: Record<string, number | null>
+  patchHistory?: LegendPatchHistory | null
+}

@@ -1,0 +1,29 @@
+.chartWrap {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto;
+  min-height: 280px;
+}
+
+.chartWrapLine {
+  position: relative;
+  width: 100%;
+  min-height: 220px;
+}
+
+.lineSection {
+  margin-top: 1.5rem;
+}
+
+.lineSection:first-of-type {
+  margin-top: 0.5rem;
+}
+
+.lineTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem 0;
+  color: var(--color-text);
+  text-align: center;
+}

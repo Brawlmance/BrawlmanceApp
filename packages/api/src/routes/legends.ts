@@ -1,7 +1,13 @@
 import type { Express, Request, Response } from 'express'
 import db from '../lib/db'
-import { getLegendStats } from '../lib/legends'
-import { getReqPatchAndTier } from '../lib/utils'
+import {
+  buildLegendPatchHistory,
+  computeLegendStatRanks,
+  computeRankChanges,
+  getAllLegendsWithStats,
+  getLegendStats,
+} from '../lib/legends'
+import { getPreviousPatchId, getReqPatchAndTier } from '../lib/utils'
 import cache from '../lib/cache'
 
 // TODO: model `legends` table row + joined stats
@@ -53,10 +59,59 @@ export default function legendsRoutes(app: Express): void {
 
     legend.stats = (await getLegendStats(legend.legend_id, patch, tier)) ?? undefined
 
-    // TODO: Finish getting data https://github.com/Brawlmance/Web/blob/master/application/routes/legend_stats.php
+    const avgRows = (await db.query(
+      'SELECT AVG(strength) AS strength, AVG(dexterity) AS dexterity, AVG(defense) AS defense, AVG(speed) AS speed FROM legends'
+    )) as Array<{ strength: number | null; dexterity: number | null; defense: number | null; speed: number | null }>
+    const avg = avgRows[0]
+    const averageStats = {
+      strength: parseFloat(Number(avg?.strength ?? 0).toFixed(2)),
+      dexterity: parseFloat(Number(avg?.dexterity ?? 0).toFixed(2)),
+      defense: parseFloat(Number(avg?.defense ?? 0).toFixed(2)),
+      speed: parseFloat(Number(avg?.speed ?? 0).toFixed(2)),
+    }
+
+    let ranks: ReturnType<typeof computeLegendStatRanks> | undefined
+    let previousRanks: ReturnType<typeof computeLegendStatRanks> | undefined
+    let rankChanges: ReturnType<typeof computeRankChanges> | undefined
+    let patchHistory: Awaited<ReturnType<typeof buildLegendPatchHistory>> | undefined
+
+    if (legend.stats) {
+      const allCurrent = await getAllLegendsWithStats(patch, tier)
+      ranks = computeLegendStatRanks(
+        String(legend.weapon_one ?? ''),
+        String(legend.weapon_two ?? ''),
+        legend.stats,
+        allCurrent
+      )
+
+      const previousPatchId = await getPreviousPatchId(patch)
+      if (previousPatchId) {
+        const prevStats = await getLegendStats(legend.legend_id, previousPatchId, tier)
+        const allPrev = await getAllLegendsWithStats(previousPatchId, tier)
+        if (prevStats && allPrev.length > 0) {
+          previousRanks = computeLegendStatRanks(
+            String(legend.weapon_one ?? ''),
+            String(legend.weapon_two ?? ''),
+            prevStats,
+            allPrev
+          )
+          rankChanges = computeRankChanges(ranks, previousRanks)
+        }
+      }
+
+      patchHistory = await buildLegendPatchHistory(legend.legend_id, patch, tier, 10, {
+        legendStats: legend.stats,
+        allLegends: allCurrent,
+      })
+    }
 
     res.status(200).json({
       legend,
+      averageStats,
+      ranks,
+      previousRanks,
+      rankChanges,
+      patchHistory,
     })
   })
 }

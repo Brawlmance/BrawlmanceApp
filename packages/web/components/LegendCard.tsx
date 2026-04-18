@@ -1,29 +1,13 @@
 import Chevron from './Chevron'
 import Link from 'next/link'
 import LegendImage from './LegendImage'
+import { legendCardDomId } from '../lib/legendAnchor'
 import useUrlQueries from '../lib/useUrlQueries'
+import { weaponId2Name } from '../lib/weaponNames'
 import { useLegendImage } from './useLegendImage'
 import { useHashTargetMatch } from './useHashTargetMatch'
 import type { LegendRow, SortState } from '../types/brawlmance'
 import styles from './LegendCard.module.css'
-
-function legendName2divId(legend: LegendRow): string {
-  return legend.bio_name.replace(' ', '')
-}
-function weaponId2Name(name: string): string {
-  switch (name) {
-    case 'RocketLance':
-      return 'Rocket Lance'
-    case 'Pistol':
-      return 'Blasters'
-    case 'Fists':
-      return 'Gauntlets'
-    case 'Katar':
-      return 'Katars'
-    default:
-      return name
-  }
-}
 
 type LegendProps = {
   legend: LegendRow
@@ -34,7 +18,7 @@ type LegendProps = {
 export default function LegendCard({ legend, sort, setSort }: LegendProps) {
   const urlQueries = useUrlQueries()
   const legendImage = useLegendImage(legend)
-  const cardId = legendName2divId(legend)
+  const cardId = legendCardDomId(legend)
   const hashMatches = useHashTargetMatch(cardId)
 
   return (
@@ -52,7 +36,7 @@ export default function LegendCard({ legend, sort, setSort }: LegendProps) {
         </div>
       </div>
       <p>
-        <Link href={`/legends${urlQueries}#${cardId}`}>
+        <Link href={`/legend/${legend.legend_id}${urlQueries}`}>
           <b>{legend.bio_name}</b>
         </Link>
         <Chevron type="bio_name" sort={sort} setSort={setSort} />

@@ -102,3 +102,17 @@ async function getCurrentPatch(): Promise<string> {
   cache.set(cacheKey, patch)
   return patch
 }
+
+/** Patch id with the next older `changes=1` window, or null if none. */
+export async function getPreviousPatchId(patchId: string): Promise<string | null> {
+  const rows = (await db.query('SELECT timestamp FROM patches WHERE changes=1 AND id=?', [patchId])) as {
+    timestamp: number
+  }[]
+  const ts = rows[0]?.timestamp
+  if (ts === undefined) return null
+  const prev = (await db.query(
+    'SELECT id FROM patches WHERE changes=1 AND timestamp<? ORDER BY timestamp DESC LIMIT 1',
+    [ts]
+  )) as { id: string }[]
+  return prev[0]?.id ?? null
+}

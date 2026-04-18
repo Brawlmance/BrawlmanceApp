@@ -1,0 +1,148 @@
+.page {
+  padding: 1rem 1rem 2rem;
+}
+
+.backRow {
+  margin-bottom: 1rem;
+}
+
+.backLink {
+  font-size: 0.95rem;
+}
+
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.heroText h1 {
+  margin: 0 0 0.35rem 0;
+  font-size: 1.75rem;
+  text-align: left;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+
+.muted {
+  margin: 0 0 1rem 0;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.warning {
+  background: rgba(194, 68, 68, 0.15);
+  border: 1px solid rgba(194, 68, 68, 0.45);
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  margin-bottom: 1.25rem;
+}
+
+.errorBox {
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.75rem;
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 400px);
+    align-items: start;
+  }
+
+  .tableColumn {
+    grid-column: 1;
+  }
+
+  .chartsColumn {
+    grid-column: 2;
+  }
+}
+
+.sectionTitle {
+  font-size: 1.15rem;
+  margin: 0 0 0.75rem 0;
+  font-weight: 600;
+}
+
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.statsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.statsTable th,
+.statsTable td {
+  padding: 0.45rem 0.65rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.statsTable th {
+  background: rgba(0, 0, 0, 0.2);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.statsTable tr:last-child td {
+  border-bottom: none;
+}
+
+.rowMinor td:first-child {
+  padding-left: 1.5rem;
+  color: var(--color-muted);
+  font-size: 0.88rem;
+}
+
+.numeric {
+  font-variant-numeric: tabular-nums;
+}
+
+.rankChange {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.better {
+  color: var(--color-positive);
+}
+
+.worse {
+  color: var(--color-negative);
+}
+
+.chartsPanel {
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.chartsPanel h2 {
+  font-size: 1.1rem;
+  margin: 0 0 0.5rem 0;
+  text-align: center;
+}
+
+.widePanel {
+  margin-top: 0.5rem;
+}

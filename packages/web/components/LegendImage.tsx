@@ -3,7 +3,10 @@ import { useLegendImage } from './useLegendImage'
 import type { LegendRow } from '../types/brawlmance'
 import styles from './LegendImage.module.css'
 
-type LegendImageProps = { legend: LegendRow } & Omit<ImageProps, 'src' | 'alt' | 'width' | 'height'>
+type LegendImageProps = { legend: Pick<LegendRow, 'legend_name_key' | 'bio_name'> } & Omit<
+  ImageProps,
+  'src' | 'alt' | 'width' | 'height'
+>
 
 export default function LegendImage({ legend, className, ...props }: LegendImageProps) {
   const legendImage = useLegendImage(legend)
