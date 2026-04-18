@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import Chevron from './Chevron'
 import Link from 'next/link'
+import Image from 'next/image'
 import useUrlQueries from '../lib/useUrlQueries'
 
 function legendName2divId(legend) {
@@ -28,49 +29,81 @@ Legend.propTypes = {
 }
 export default function Legend({ legend, sort, setSort }) {
   const urlQueries = useUrlQueries()
+  let legendImage
+  try {
+    legendImage = require(`../assets/img/legends/${legend.legend_name_key}.png`)
+  } catch (error) {}
+
   return (
     <div className="card" id={legendName2divId(legend)}>
-      <img alt="" src={`/img/legends/${legend.legend_id}.png`} />
+      <div
+        style={{
+          display: 'flex',
+          gap: '0.5em',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        {/* Spacer to visually center the image, and put stats on the right*/}
+        {legendImage && <div style={{ width: '25px' }} />}
+
+        {legendImage && (
+          <Image
+            src={legendImage}
+            alt={legend.bio_name}
+            width={90}
+            height={90}
+            style={{
+              borderRadius: '8px',
+            }}
+          />
+        )}
+
+        <div className="stats">
+          <div className="strength">{legend.strength}</div>
+          <div className="dexterity">{legend.dexterity}</div>
+          <div className="defense">{legend.defense}</div>
+          <div className="speed">{legend.speed}</div>
+        </div>
+      </div>
       <p>
         <Link href={`/legends${urlQueries}#${legendName2divId(legend)}`}>
           <b>{legend.bio_name}</b>
-        </Link>{' '}
+        </Link>
         <Chevron type="bio_name" sort={sort} setSort={setSort} />
       </p>
-      <div className="stats">
-        <div className="strength">{legend.strength}</div>
-        <div className="dexterity">{legend.dexterity}</div>
-        <div className="defense">{legend.defense}</div>
-        <div className="speed">{legend.speed}</div>
-      </div>
       <div className="statistical">
         <div>
           <p>
-            Playrate <Chevron type="playrate" sort={sort} setSort={setSort} />
+            Playrate
+            <Chevron type="playrate" sort={sort} setSort={setSort} />
           </p>{' '}
           {legend.stats.playrate}%
         </div>
         <div>
           <p>
-            Winrate <Chevron type="winrate" sort={sort} setSort={setSort} />
+            Winrate
+            <Chevron type="winrate" sort={sort} setSort={setSort} />
           </p>{' '}
           {legend.stats.winrate}%
         </div>
         <div>
           <p>
-            Dmg taken <Chevron type="damagetaken" sort={sort} setSort={setSort} />
+            Dmg taken
+            <Chevron type="damagetaken" sort={sort} setSort={setSort} />
           </p>{' '}
           {legend.stats.damagetaken}
         </div>
         <div>
           <p>
-            Suicides <Chevron type="suicides" sort={sort} setSort={setSort} />
+            Suicides
+            <Chevron type="suicides" sort={sort} setSort={setSort} />
           </p>{' '}
           {legend.stats.suicides}
         </div>
         <div>
           <p>
-            Dmg dealt <Chevron type="damagedealt" sort={sort} setSort={setSort} />
+            Dmg dealt
+            <Chevron type="damagedealt" sort={sort} setSort={setSort} />
           </p>
           {legend.stats.damagedealt.toFixed(0)}
           <div className="damagedealt">
@@ -90,7 +123,8 @@ export default function Legend({ legend, sort, setSort }) {
         </div>
         <div>
           <p>
-            Match duration <Chevron type="matchtime" sort={sort} setSort={setSort} />
+            Match duration
+            <Chevron type="matchtime" sort={sort} setSort={setSort} />
           </p>{' '}
           {legend.stats.matchtime.toFixed(0)} seconds
           <div className="matchtime">
