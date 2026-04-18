@@ -1,10 +1,11 @@
-import type { ChangeEvent } from 'react'
 import Router, { useRouter } from 'next/router'
 import Link from 'next/link'
 import api from '../lib/api'
 import useUrlQueries from '../lib/useUrlQueries'
 import type { LegendRow } from '../types/brawlmance'
 import type { NextPageContext } from 'next'
+import AppSearchableSelect from '../components/AppSearchableSelect'
+import AppSelect from '../components/AppSelect'
 
 /** TODO: align with /v1/ranking/legend/:id players rows */
 type RankingsPlayerRow = {
@@ -25,16 +26,16 @@ export default function Rankings({ legends, players }: RankingsProps) {
   const router = useRouter()
   if (!players) return null
 
-  const newSort = (e: ChangeEvent<HTMLSelectElement>) => {
+  const newSort = (sort: string) => {
     Router.push({
       pathname: Router.pathname,
-      query: { ...Router.query, sort: e.target.value },
+      query: { ...Router.query, sort },
     })
   }
-  const newLegend = (e: ChangeEvent<HTMLSelectElement>) => {
+  const newLegend = (legend: string) => {
     Router.push({
       pathname: Router.pathname,
-      query: { ...Router.query, legend: e.target.value },
+      query: { ...Router.query, legend },
     })
   }
 
@@ -47,20 +48,28 @@ export default function Rankings({ legends, players }: RankingsProps) {
   return (
     <>
       <div id="rankingform">
-        <select value={legendValue} onChange={newLegend}>
-          {legends.map((legend) => {
-            return (
-              <option key={legend.legend_id} value={legend.legend_id}>
-                {legend.bio_name}
-              </option>
-            )
-          })}
-        </select>
-        <select value={sort} onChange={newSort}>
-          <option value="mastery">Mastery</option>
-          <option value="elo">Elo</option>
-          <option value="peak_elo">Peak Elo</option>
-        </select>
+        <AppSearchableSelect
+          aria-label="Legend"
+          value={legendValue}
+          onValueChange={newLegend}
+          options={legends.map((legend) => ({
+            value: String(legend.legend_id),
+            label: legend.bio_name,
+          }))}
+          className="app-select--ranking"
+          searchPlaceholder="Search legends…"
+        />
+        <AppSelect
+          aria-label="Sort by"
+          value={sort}
+          onValueChange={newSort}
+          options={[
+            { value: 'mastery', label: 'Mastery' },
+            { value: 'elo', label: 'Elo' },
+            { value: 'peak_elo', label: 'Peak Elo' },
+          ]}
+          className="app-select--ranking"
+        />
       </div>
       <div style={{ overflow: 'auto' }}>
         <table id="ranking">

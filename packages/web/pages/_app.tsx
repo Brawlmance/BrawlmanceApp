@@ -9,6 +9,9 @@ import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import App, { type AppContext, type AppProps } from 'next/app'
 import setupGoogleAnalytics from '../lib/google_analytics'
+import AppSearchableSelect from '../components/AppSearchableSelect'
+import AppSelect from '../components/AppSelect'
+import { ExclusiveOverlayProvider } from '../components/ExclusiveOverlayContext'
 import { useRouteTransitionLoading } from '../components/useRouteTransitionLoading'
 import usePatchAndTier, { changePatch, changeTier } from '../components/usePatchAndTier'
 import api from '../lib/api'
@@ -37,29 +40,31 @@ export default function MyApp({ Component, pageProps, headerData, bgIndex = 0 }:
         <title>Brawlmance - Brawlhalla Statistics</title>
         <meta key="viewport" name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <div className="container" id="main">
-        <Header headerData={headerData} routeLoading={routeLoading} />
-        <div
-          id="content"
-          aria-busy={routeLoading}
-          style={{
-            opacity: routeLoading ? 0.1 : 1,
-            transition: 'opacity 500ms ease',
-            pointerEvents: routeLoading ? 'none' : 'auto',
-          }}>
-          <Component {...pageProps} />
+      <ExclusiveOverlayProvider>
+        <div className="container" id="main">
+          <Header headerData={headerData} routeLoading={routeLoading} />
+          <div
+            id="content"
+            aria-busy={routeLoading}
+            style={{
+              opacity: routeLoading ? 0.1 : 1,
+              transition: 'opacity 500ms ease',
+              pointerEvents: routeLoading ? 'none' : 'auto',
+            }}>
+            <Component {...pageProps} />
+          </div>
+          <footer>
+            <p>Backgrounds of stages, legend portraits, and stat icons by Blue Mammoth Games</p>
+            <p>Using Brawlhalla, Steam, and Twitch APIs. Using JQuery, TinySort, Chart.js, and FontAwesome</p>
+            <p>
+              Brawlmance isn&apos;t endorsed by Blue Mammoth Games and doesn&apos;t reflect the views or opinions of
+              Blue Mammoth Games or anyone officially involved in producing or managing Brawlhalla. Brawlhalla and Blue
+              Mammoth Games are trademarks or registered trademarks of Blue Mammoth Games
+            </p>
+          </footer>
         </div>
-        <footer>
-          <p>Backgrounds of stages, legend portraits, and stat icons by Blue Mammoth Games</p>
-          <p>Using Brawlhalla, Steam, and Twitch APIs. Using JQuery, TinySort, Chart.js, and FontAwesome</p>
-          <p>
-            Brawlmance isn&apos;t endorsed by Blue Mammoth Games and doesn&apos;t reflect the views or opinions of Blue
-            Mammoth Games or anyone officially involved in producing or managing Brawlhalla. Brawlhalla and Blue Mammoth
-            Games are trademarks or registered trademarks of Blue Mammoth Games
-          </p>
-        </footer>
-      </div>
-      <img className="bg" src={randomBG} alt="" />
+        <img className="bg" src={randomBG} alt="" />
+      </ExclusiveOverlayProvider>
     </>
   )
 }
@@ -156,19 +161,26 @@ function Header({ headerData: headerDataFromApp, routeLoading }: { headerData: H
         <div id="aggregationstatus">
           <label>
             Patch{' '}
-            <select name="patch" value={patchValue} onChange={(e) => changePatch(e.target.value)}>
-              {patches.map((p) => {
-                return <option key={p.id}>{p.id}</option>
-              })}
-            </select>
+            <AppSearchableSelect
+              name="patch"
+              aria-label="Game patch"
+              value={patchValue}
+              onValueChange={changePatch}
+              options={patches.map((p) => ({ value: p.id, label: p.id }))}
+              className="app-select--header"
+              searchPlaceholder="Search patches…"
+            />
           </label>
 
           <label>
-            <select name="tier" value={tierValue} onChange={(e) => changeTier(e.target.value)}>
-              {tiers.map((tiername) => {
-                return <option key={tiername}>{tiername}</option>
-              })}
-            </select>
+            <AppSelect
+              name="tier"
+              aria-label="Rank tier"
+              value={tierValue}
+              onValueChange={changeTier}
+              options={tiers.map((tiername) => ({ value: tiername, label: tiername }))}
+              className="app-select--header"
+            />
           </label>
 
           <span id="n_analyzed">

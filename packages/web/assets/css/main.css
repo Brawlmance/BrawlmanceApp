@@ -114,7 +114,126 @@ header div {
   }
 }
 
-#aggregationstatus select {
+/* Radix-based selects (see components/AppSelect.tsx) */
+.app-select-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font: inherit;
+  line-height: 1.2;
+  color: #333;
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 0.15em 0.45em;
+}
+.app-select-trigger:focus {
+  outline: 2px solid rgba(75, 128, 92, 0.45);
+  outline-offset: 1px;
+}
+.app-select-icon {
+  display: inline-flex;
+  opacity: 0.75;
+}
+.app-select-content {
+  z-index: 200;
+  overflow: hidden;
+  border-radius: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+}
+.app-select-content--searchable {
+  z-index: 250;
+  display: flex;
+  flex-direction: column;
+  max-height: min(85vh, calc(100dvh - 24px));
+}
+.app-select-command {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-height: 0;
+  max-height: inherit;
+}
+.app-select-search-input {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 0.45em 0.6em;
+  font: inherit;
+  font-size: 0.95em;
+  color: #333;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0.03);
+}
+.app-select-search-input:focus {
+  outline: none;
+  background: rgba(75, 128, 92, 0.08);
+}
+.app-select-search-input::placeholder {
+  color: #777;
+}
+.app-select-command-list {
+  flex: 1;
+  min-height: 0;
+  max-height: min(55vh, 320px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 4px 0;
+}
+.app-select-empty {
+  padding: 0.6em 0.75em;
+  font-size: 0.9em;
+  color: #666;
+  text-align: center;
+}
+.app-select-value {
+  max-width: 40vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@media (max-width: 1023px) {
+  .app-select-value {
+    max-width: 55vw;
+  }
+}
+.app-select-viewport {
+  max-height: min(55vh, 320px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 2px 0;
+}
+.app-select-item {
+  padding: 0.35em 0.65em;
+  color: #333;
+  cursor: pointer;
+  outline: none;
+  font-size: inherit;
+}
+.app-select-item[data-disabled='true'] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+/* Radix Select (sort / tier) */
+.app-select-viewport .app-select-item[data-highlighted] {
+  background: rgba(75, 128, 92, 0.12);
+}
+/* cmdk list (searchable patch / legend) */
+.app-select-command-list .app-select-item[aria-selected='true'] {
+  background: rgba(75, 128, 92, 0.12);
+}
+.app-select-item[data-state='checked'] {
+  font-weight: 600;
+}
+
+#aggregationstatus .app-select-trigger {
   color: #333;
 }
 
@@ -330,7 +449,7 @@ header div {
   text-align: center;
   margin: 1.5em 0;
 }
-#rankingform select {
+#rankingform .app-select-trigger {
   color: #333;
   padding: 0.3em 1em;
   font-size: 1.15em;
