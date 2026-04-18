@@ -27,12 +27,3 @@ export function useRouteTransitionLoading(): boolean {
 
   return routeLoading
 }
-
-export function RouteLoadingIndicator() {
-  return (
-    <div className="route-loading" role="status">
-      <span className="route-loading-spinner" aria-hidden />
-      Loading&hellip;
-    </div>
-  )
-}

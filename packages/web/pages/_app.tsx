@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import App, { type AppContext, type AppProps } from 'next/app'
 import setupGoogleAnalytics from '../lib/google_analytics'
-import { RouteLoadingIndicator, useRouteTransitionLoading } from '../components/RouteTransitionLoading'
+import { useRouteTransitionLoading } from '../components/useRouteTransitionLoading'
 import usePatchAndTier, { changePatch, changeTier } from '../components/usePatchAndTier'
 import api from '../lib/api'
 import { normalizeTier } from '../lib/tier'
@@ -39,8 +39,15 @@ export default function MyApp({ Component, pageProps, headerData, bgIndex = 0 }:
       </Head>
       <div className="container" id="main">
         <Header headerData={headerData} routeLoading={routeLoading} />
-        <div id="content" aria-busy={routeLoading}>
-          {routeLoading ? <RouteLoadingIndicator /> : <Component {...pageProps} />}
+        <div
+          id="content"
+          aria-busy={routeLoading}
+          style={{
+            opacity: routeLoading ? 0.1 : 1,
+            transition: 'opacity 500ms ease',
+            pointerEvents: routeLoading ? 'none' : 'auto',
+          }}>
+          <Component {...pageProps} />
         </div>
         <footer>
           <p>Backgrounds of stages, legend portraits, and stat icons by Blue Mammoth Games</p>

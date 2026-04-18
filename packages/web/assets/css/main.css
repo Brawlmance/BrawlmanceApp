@@ -140,34 +140,6 @@ header div {
   text-align: center;
 }
 
-.route-loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6em;
-  min-height: 12rem;
-  padding: 2rem 1rem;
-  font-size: 1.1em;
-  color: #ddd;
-}
-
-.route-loading-spinner {
-  display: inline-block;
-  width: 1.1em;
-  height: 1.1em;
-  border: 2px solid rgba(215, 208, 0, 0.25);
-  border-top-color: #d7d000;
-  border-radius: 50%;
-  animation: route-loading-spin 0.7s linear infinite;
-  vertical-align: middle;
-}
-
-@keyframes route-loading-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .loading-placeholder {
   opacity: 0.85;
   font-style: italic;
