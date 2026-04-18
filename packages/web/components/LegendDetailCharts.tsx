@@ -1,5 +1,7 @@
 import { useMemo } from 'react'
 import {
+  BarController,
+  BarElement,
   CategoryScale,
   Chart as ChartJS,
   Filler,
@@ -11,9 +13,11 @@ import {
   RadialLinearScale,
   RadarController,
   Tooltip,
+  type TooltipItem,
 } from 'chart.js'
-import { Line, Radar } from 'react-chartjs-2'
-import type { LegendPatchHistory } from '../types/brawlmance'
+import { Bar, Line, Radar } from 'react-chartjs-2'
+import { weaponId2Name } from '../lib/weaponNames'
+import type { LegendPatchHistory, LegendStats } from '../types/brawlmance'
 import styles from './LegendDetailCharts.module.css'
 
 ChartJS.register(
@@ -23,6 +27,8 @@ ChartJS.register(
   PointElement,
   LineElement,
   LineController,
+  BarController,
+  BarElement,
   RadarController,
   Filler,
   Legend,
@@ -40,6 +46,12 @@ const chartFont = {
 
 const axisColor = 'rgba(255, 255, 255, 0.12)'
 const tickColor = 'rgba(204, 204, 204, 0.9)'
+
+/** Stacked bar segments — distinct from radar grays / line orange */
+const SIG_UNARMED = 'rgba(129, 177, 255, 0.85)'
+const SIG_GADGETS = 'rgba(255, 129, 168, 0.85)'
+const SIG_W1 = 'rgba(255, 159, 64, 0.9)'
+const SIG_W2 = 'rgba(120, 220, 200, 0.9)'
 
 type RadarProps = {
   legendRatings: { strength: number; dexterity: number; defense: number; speed: number }
@@ -117,6 +129,123 @@ export function LegendRadarBlock({ legendRatings, averageStats }: RadarProps) {
   return (
     <div className={styles.chartWrap}>
       <Radar data={data} options={options} />
+    </div>
+  )
+}
+
+type SignatureBarsProps = {
+  stats: LegendStats
+  weaponOne: string
+  weaponTwo: string
+}
+
+/** 100% stacked bars: damage split vs time-on-weapon split (current patch/tier stats). */
+export function LegendSignatureStackedBars({ stats, weaponOne, weaponTwo }: SignatureBarsProps) {
+  const w1 = weaponId2Name(weaponOne)
+  const w2 = weaponId2Name(weaponTwo)
+
+  const { data, options } = useMemo(() => {
+    const dd = stats.damagedealt
+    const mt = stats.matchtime
+    if (dd <= 0 || mt <= 0) {
+      return { data: null, options: null }
+    }
+
+    const pct = (n: number, d: number) => (n / d) * 100
+
+    const chartData = {
+      labels: ['Damage dealt (share)', 'Time in match (share)'],
+      datasets: [
+        {
+          label: 'Unarmed',
+          data: [pct(stats.damagedealt_unarmed, dd), pct(stats.matchtime_unarmed, mt)],
+          backgroundColor: SIG_UNARMED,
+          stack: 'sig',
+        },
+        {
+          label: 'Gadgets',
+          data: [pct(stats.damagedealt_gadgets, dd), 0],
+          backgroundColor: SIG_GADGETS,
+          stack: 'sig',
+        },
+        {
+          label: w1,
+          data: [pct(stats.damagedealt_weaponone, dd), pct(stats.matchtime_weaponone, mt)],
+          backgroundColor: SIG_W1,
+          stack: 'sig',
+        },
+        {
+          label: w2,
+          data: [pct(stats.damagedealt_weapontwo, dd), pct(stats.matchtime_weapontwo, mt)],
+          backgroundColor: SIG_W2,
+          stack: 'sig',
+        },
+      ],
+    }
+
+    const chartOptions = {
+      indexAxis: 'y' as const,
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: {
+          position: 'bottom' as const,
+          labels: {
+            color: tickColor,
+            font: chartFont,
+            boxWidth: 12,
+            padding: 12,
+          },
+        },
+        tooltip: {
+          backgroundColor: 'rgba(33, 33, 35, 0.94)',
+          titleColor: '#eee',
+          bodyColor: '#ddd',
+          borderColor: axisColor,
+          borderWidth: 1,
+          filter: (item: TooltipItem<'bar'>) => {
+            const x = item.parsed.x
+            return x !== null && x !== undefined && x > 0.0005
+          },
+          callbacks: {
+            label: (ctx: TooltipItem<'bar'>) => {
+              const v = ctx.parsed.x
+              if (v === null || v === undefined) return `${ctx.dataset.label ?? ''}: —`
+              return `${ctx.dataset.label ?? ''}: ${v.toFixed(1)}%`
+            },
+          },
+        },
+      },
+      scales: {
+        x: {
+          stacked: true,
+          max: 100,
+          grid: { color: axisColor },
+          ticks: {
+            color: tickColor,
+            font: chartFont,
+            callback: (value: string | number) => `${value}%`,
+          },
+        },
+        y: {
+          stacked: true,
+          grid: { display: false },
+          ticks: {
+            color: tickColor,
+            font: chartFont,
+          },
+        },
+      },
+    }
+
+    return { data: chartData, options: chartOptions }
+  }, [stats, w1, w2])
+
+  if (!data || !options) return null
+
+  return (
+    <div className={styles.chartWrapSignature}>
+      <Bar data={data} options={options} />
     </div>
   )
 }

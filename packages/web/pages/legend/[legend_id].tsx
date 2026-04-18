@@ -207,6 +207,9 @@ export default function LegendDetailPage({ data, loadError }: PageProps) {
                 }}
                 averageStats={averageStats}
                 patchHistory={patchHistory}
+                stats={stats}
+                weaponOne={String(legend.weapon_one)}
+                weaponTwo={String(legend.weapon_two)}
               />
             </div>
           </div>
