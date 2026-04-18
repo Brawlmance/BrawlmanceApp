@@ -5,10 +5,13 @@ import '../assets/css/legend_stats.css'
 import Head from 'next/head'
 
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import App, { type AppContext, type AppProps } from 'next/app'
 import setupGoogleAnalytics from '../lib/google_analytics'
 import usePatchAndTier, { changePatch, changeTier } from '../components/usePatchAndTier'
 import api from '../lib/api'
+import { normalizeTier } from '../lib/tier'
 import useUrlQueries from '../lib/useUrlQueries'
 import cache from '../lib/cache'
 import bg1 from '../assets/img/bg/bg1.jpg'
@@ -69,8 +72,24 @@ MyApp.getInitialProps = async (appContext: AppContext) => {
   return { ...appProps, headerData, bgIndex }
 }
 
-function Header({ headerData }: { headerData: HeaderData }) {
+function Header({ headerData: headerDataFromApp }: { headerData: HeaderData }) {
+  const router = useRouter()
   const { patch, tier } = usePatchAndTier()
+  const [headerData, setHeaderData] = useState<HeaderData>(headerDataFromApp)
+
+  const tierNormalized = normalizeTier(router.query.tier)
+
+  useEffect(() => {
+    if (!router.isReady) return
+    let cancelled = false
+    api.get(`/v1/patches?tier=${encodeURIComponent(tierNormalized)}`).then((data) => {
+      if (!cancelled) setHeaderData(data as HeaderData)
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [router.isReady, tierNormalized])
+
   const urlQueries = useUrlQueries()
   const patches = headerData.patches
   const tiers = headerData.tiers
@@ -119,10 +138,10 @@ function Header({ headerData }: { headerData: HeaderData }) {
                 })}
               </select>
             </label>
-            <input type="hidden" name="tier" value="<?=$tier?>" />
+            <input type="hidden" name="tier" value={tierValue} />
           </form>
           <form method="GET" style={{ display: 'inline' }} id="tierform">
-            <input type="hidden" name="patch" value="<?=$patchid?>" />
+            <input type="hidden" name="patch" value={patchValue} />
             <label>
               <select name="tier" value={tierValue} onChange={(e) => changeTier(e.target.value)}>
                 {tiers.map((tiername) => {
