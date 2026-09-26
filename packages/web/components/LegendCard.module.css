@@ -44,8 +44,9 @@
 .stats > .statCell::before {
   display: inline-block;
   content: ' ';
-  height: 12px;
-  width: 12px;
+  height: 14px;
+  width: 14px;
+  vertical-align: -2px;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center left;
@@ -54,22 +55,18 @@
 
 .strength::before {
   background-image: url('/img/stats/strength.png');
-  filter: saturate(0) contrast(99) invert(1);
 }
 
 .dexterity::before {
   background-image: url('/img/stats/dexterity.png');
-  filter: saturate(0) contrast(99);
 }
 
 .defense::before {
   background-image: url('/img/stats/defense.png');
-  filter: saturate(0) contrast(99);
 }
 
 .speed::before {
   background-image: url('/img/stats/speed.png');
-  filter: saturate(0) contrast(99) invert(1);
 }
 
 .statistical {
