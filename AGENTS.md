@@ -61,6 +61,8 @@ Shared parsing: `getReqPatchAndTier` in `packages/api/src/lib/utils.ts`.
 - **API:** `lib/api.ts` is used to call the Brawlmance API
 - **Routing / state:** Patch and tier follow the URL and global header (`usePatchAndTier`, `useUrlQueries`, `normalizeTier` in `lib/tier.ts`). Main pages include home (`/`), legends listing, legend detail (`/legend/[id]`), weapons listing, weapon detail (`/weapon/[weapon_id]`), rankings, search, about, health.
 
+Legend portraits are bundled at build time from `packages/web/assets/img/legends/<legend_name_key>.png`. A daily cron job (`packages/web/scripts/sync-legend-images.sh`) runs `sync-legend-images.mjs`. That script downloads the portrait for any API legend without an image from brawlhalla.com/legends, matching on the card's alt text. When it adds one, the job commits and pushes it, then rebuilds and restarts `brawlmance-web` in pm2.
+
 Shared UI types for legends/weapons/header live in `packages/web/types/brawlmance.ts` (some payloads still marked TODO to align exactly with API).
 
 ## Conventions for agents
