@@ -20,6 +20,14 @@ function decodeEntities(str) {
     .replace(/&quot;/g, '"')
 }
 
+// Keep in sync with legendImageFileName in components/useLegendImage.ts
+function legendImageFileName(legendNameKey) {
+  return legendNameKey
+    .replace(/[^a-z0-9 ]+/g, ' ')
+    .replace(/ +/g, ' ')
+    .trim()
+}
+
 async function fetchOk(url) {
   const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Brawlmance)' } })
   if (!res.ok) throw new Error(`GET ${url} -> ${res.status}`)
@@ -29,7 +37,7 @@ async function fetchOk(url) {
 const { legends } = await (await fetchOk(`${API_URL}/v1/legends`)).json()
 const missing = legends
   .map((legend) => legend.legend_name_key)
-  .filter((key) => !existsSync(path.join(imagesDir, `${key}.png`)))
+  .filter((key) => !existsSync(path.join(imagesDir, `${legendImageFileName(key)}.png`)))
 
 if (missing.length > 0) {
   const html = await (await fetchOk(ROSTER_URL)).text()
@@ -48,7 +56,7 @@ if (missing.length > 0) {
     await sharp(input)
       .resize({ width: IMAGE_WIDTH })
       .png({ palette: true })
-      .toFile(path.join(imagesDir, `${key}.png`))
-    console.log(`${key}.png`)
+      .toFile(path.join(imagesDir, `${legendImageFileName(key)}.png`))
+    console.log(`${legendImageFileName(key)}.png`)
   }
 }
